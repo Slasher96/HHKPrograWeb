@@ -12,7 +12,7 @@ namespace ProyectoPrograWebHHK.Controllers
         // GET: Client
         public ActionResult Index()
         {
-            var model = new ProductModel { ListaProductos = new ProductModel().GetProductos() };
+            var model = new ProductModel { ListaMotocicletas = new ProductModel().GetMotos() };
             return View(model);
         }
 

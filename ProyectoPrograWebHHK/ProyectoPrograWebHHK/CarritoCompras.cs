@@ -12,14 +12,19 @@ namespace ProyectoPrograWebHHK
     using System;
     using System.Collections.Generic;
     
-    public partial class Departamento
+    public partial class CarritoCompras
     {
-        public int IdDepartamento { get; set; }
-        public string Nombre { get; set; }
-        public string Descripcion { get; set; }
+        public int IdCarrito { get; set; }
+        public int IdCliente { get; set; }
+        public int Sku { get; set; }
+        public int Cantidad { get; set; }
+        public decimal Costo { get; set; }
+        public int IdMp { get; set; }
+        public bool Ventido { get; set; }
         public bool estaActivo { get; set; }
     
-        public virtual Departamento Departamento1 { get; set; }
-        public virtual Departamento Departamento2 { get; set; }
+        public virtual Cliente Cliente { get; set; }
+        public virtual ModoPago ModoPago { get; set; }
+        public virtual Productos Productos { get; set; }
     }
 }

@@ -17,6 +17,7 @@ namespace ProyectoPrograWebHHK
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Cliente()
         {
+            this.CarritoCompras = new HashSet<CarritoCompras>();
             this.Venta = new HashSet<Venta>();
         }
     
@@ -25,13 +26,14 @@ namespace ProyectoPrograWebHHK
         public string PrimerApellido { get; set; }
         public string segundoApellido { get; set; }
         public string Direccion { get; set; }
-        public string Telefono { get; set; }
-        public bool estaActivo { get; set; }
         public string Correo { get; set; }
         public string Contrasena { get; set; }
+        public string Telefono { get; set; }
+        public bool EsEmpleado { get; set; }
+        public bool estaActivo { get; set; }
     
-        public virtual Cliente Cliente1 { get; set; }
-        public virtual Cliente Cliente2 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CarritoCompras> CarritoCompras { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Venta> Venta { get; set; }
     }

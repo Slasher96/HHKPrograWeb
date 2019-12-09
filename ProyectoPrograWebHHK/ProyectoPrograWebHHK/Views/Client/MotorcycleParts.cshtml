@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@model ProyectoPrograWebHHK.Models.ProductModel
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -8,6 +9,23 @@
     <link href="~/scripts/bootstrap-4.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="~/scripts/css/IndexStyle.css" rel="stylesheet">
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <!--===============================================================================================-->
+    <script src="@Url.Content("~/scripts/JS/vendor/jquery/jquery-3.2.1.min.js")"></script>
+    <!--===============================================================================================-->
+    <script src="@Url.Content("~/scripts/JS/vendor/bootstrap/js/popper.js")"></script>
+    <script src="@Url.Content("~/scripts/JS/vendor/bootstrap/js/bootstrap.min.js")"></script>
+    <!--===============================================================================================-->
+    <script src="@Url.Content("~/scripts/JS/vendor/select2/select2.min.js")"></script>
+    <!--===============================================================================================-->
+    <script src="@Url.Content("~/scripts/JS/main.js")"></script>
+    <script src="~/scripts/bootstrap-4.0.0/assets/js/vendor/popper.min.js"></script>
+    <script src="~/scripts/bootstrap-4.0.0/dist/js/bootstrap.min.js"></script>
+    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+    <script src="~/scripts/bootstrap-4.0.0/assets/js/vendor/holder.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
 </head>
 <body>
     <br />
@@ -15,16 +33,38 @@
     <br />
     <main role="main">
         <div class="container marketing">
-
-            <div class="row">
-                <div class="col-lg-4">
-                    <img class="rounded-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
-                    <h2>nombre refaccion</h2>
-                    <p>texto de refaccion</p>
-                    <p><a class="btn btn-secondary" href="#" role="button">Comprar Ahora&raquo;</a></p>
-                </div><!-- /.col-lg-4 -->
-            </div><!-- /.row -->
+            @foreach (var item in Model.ListaRefacciones)
+            {
+                <div class="row">
+                    <div class="col-lg-4">
+                        <img class="rounded-circle" src="~/Resources/Images/@item.RutaImagen" alt="Generic placeholder image" width="140" height="140">
+                        <h2>@item.Nombre</h2>
+                        <p>@item.Descripcion</p>
+                        <p><a class="btn btn-secondary" onclick="" role="button">Comprar Ahora&raquo;</a></p>
+                    </div><!-- /.col-lg-4 -->
+                </div><!-- /.row -->
+            }
         </div>
     </main>
 </body>
+
 </html>
+<script>
+    function buyNow(id)
+    {
+        $.ajax({
+                type: 'POST',
+                url: '@Url.Action("BuyNow","Client")', // we are calling json method
+
+                dataType: 'json',
+
+                data: {idProducto: id },
+
+                success: function (a) {
+                },
+                error: function () {
+                    alert('Ocurrio un error');
+                }
+            });
+    }
+</script>

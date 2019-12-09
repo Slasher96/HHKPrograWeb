@@ -4,7 +4,20 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="HHKDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="HHKDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CarritoCompras">
+          <Key>
+            <PropertyRef Name="IdCarrito" />
+          </Key>
+          <Property Name="IdCarrito" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdCliente" Type="int" Nullable="false" />
+          <Property Name="Sku" Type="int" Nullable="false" />
+          <Property Name="Cantidad" Type="int" Nullable="false" />
+          <Property Name="Costo" Type="money" Nullable="false" />
+          <Property Name="IdMp" Type="int" Nullable="false" />
+          <Property Name="Ventido" Type="bit" Nullable="false" />
+          <Property Name="estaActivo" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="Cliente">
           <Key>
             <PropertyRef Name="IdCliente" />
@@ -17,6 +30,7 @@
           <Property Name="Correo" Type="varchar" MaxLength="80" Nullable="false" />
           <Property Name="Contrasena" Type="varchar" MaxLength="120" Nullable="false" />
           <Property Name="Telefono" Type="varchar" MaxLength="12" Nullable="false" />
+          <Property Name="EsEmpleado" Type="bit" Nullable="false" />
           <Property Name="estaActivo" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Departamento">
@@ -33,9 +47,11 @@
             <PropertyRef Name="IdDetalle" />
           </Key>
           <Property Name="IdDetalle" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdVenta" Type="int" Nullable="false" />
           <Property Name="Sku" Type="int" Nullable="false" />
+          <Property Name="Costo" Type="money" Nullable="false" />
+          <Property Name="Total" Type="money" Nullable="false" />
           <Property Name="Cantidad" Type="int" Nullable="false" />
-          <Property Name="IdMp" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="ModoPago">
           <Key>
@@ -53,9 +69,11 @@
           <Property Name="Sku" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Descripcion" Type="varchar" MaxLength="300" />
+          <Property Name="DescripcionSecundaria" Type="varchar" MaxLength="200" />
           <Property Name="IdDepartamento" Type="int" Nullable="false" />
           <Property Name="RutaImagen" Type="varchar" MaxLength="200" />
           <Property Name="Costo" Type="float" Nullable="false" />
+          <Property Name="Inventario" Type="int" />
           <Property Name="estaActivo" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Venta">
@@ -64,20 +82,44 @@
           </Key>
           <Property Name="IdVenta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IdCliente" Type="int" Nullable="false" />
-          <Property Name="IdDetalle" Type="int" Nullable="false" />
+          <Property Name="IdMp" Type="int" Nullable="false" />
           <Property Name="Fecha" Type="date" Nullable="false" />
           <Property Name="subtotal" Type="money" Nullable="false" />
           <Property Name="Total" Type="money" Nullable="false" />
         </EntityType>
-        <Association Name="FK_Cliente_Cliente">
+        <Association Name="FK_CarritoCompras_Cliente">
           <End Role="Cliente" Type="Self.Cliente" Multiplicity="1" />
-          <End Role="Cliente1" Type="Self.Cliente" Multiplicity="0..1" />
+          <End Role="CarritoCompras" Type="Self.CarritoCompras" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Cliente">
               <PropertyRef Name="IdCliente" />
             </Principal>
-            <Dependent Role="Cliente1">
+            <Dependent Role="CarritoCompras">
               <PropertyRef Name="IdCliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CarritoCompras_ModoPago">
+          <End Role="ModoPago" Type="Self.ModoPago" Multiplicity="1" />
+          <End Role="CarritoCompras" Type="Self.CarritoCompras" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ModoPago">
+              <PropertyRef Name="IdMp" />
+            </Principal>
+            <Dependent Role="CarritoCompras">
+              <PropertyRef Name="IdMp" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CarritoCompras_Productos">
+          <End Role="Productos" Type="Self.Productos" Multiplicity="1" />
+          <End Role="CarritoCompras" Type="Self.CarritoCompras" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Productos">
+              <PropertyRef Name="Sku" />
+            </Principal>
+            <Dependent Role="CarritoCompras">
+              <PropertyRef Name="Sku" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -93,18 +135,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Detalle_ModoPago">
-          <End Role="ModoPago" Type="Self.ModoPago" Multiplicity="1" />
-          <End Role="Detalle" Type="Self.Detalle" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ModoPago">
-              <PropertyRef Name="IdMp" />
-            </Principal>
-            <Dependent Role="Detalle">
-              <PropertyRef Name="IdMp" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Detalle_Productos">
           <End Role="Productos" Type="Self.Productos" Multiplicity="1" />
           <End Role="Detalle" Type="Self.Detalle" Multiplicity="*" />
@@ -117,15 +147,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Productos_Departamento">
-          <End Role="Departamento" Type="Self.Departamento" Multiplicity="1" />
-          <End Role="Productos" Type="Self.Productos" Multiplicity="*" />
+        <Association Name="FK_Detalle_Venta">
+          <End Role="Venta" Type="Self.Venta" Multiplicity="1" />
+          <End Role="Detalle" Type="Self.Detalle" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Departamento">
-              <PropertyRef Name="IdDepartamento" />
+            <Principal Role="Venta">
+              <PropertyRef Name="IdVenta" />
             </Principal>
-            <Dependent Role="Productos">
-              <PropertyRef Name="IdDepartamento" />
+            <Dependent Role="Detalle">
+              <PropertyRef Name="IdVenta" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -141,58 +171,80 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Venta_Detalle">
-          <End Role="Detalle" Type="Self.Detalle" Multiplicity="1" />
+        <Association Name="FK_Venta_ModoPago">
+          <End Role="ModoPago" Type="Self.ModoPago" Multiplicity="1" />
           <End Role="Venta" Type="Self.Venta" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Detalle">
-              <PropertyRef Name="IdDetalle" />
+            <Principal Role="ModoPago">
+              <PropertyRef Name="IdMp" />
             </Principal>
             <Dependent Role="Venta">
-              <PropertyRef Name="IdDetalle" />
+              <PropertyRef Name="IdMp" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="HHKDBModelStoreContainer">
+          <EntitySet Name="CarritoCompras" EntityType="Self.CarritoCompras" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Cliente" EntityType="Self.Cliente" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Departamento" EntityType="Self.Departamento" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Detalle" EntityType="Self.Detalle" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ModoPago" EntityType="Self.ModoPago" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Productos" EntityType="Self.Productos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Venta" EntityType="Self.Venta" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_Cliente_Cliente" Association="Self.FK_Cliente_Cliente">
+          <AssociationSet Name="FK_CarritoCompras_Cliente" Association="Self.FK_CarritoCompras_Cliente">
             <End Role="Cliente" EntitySet="Cliente" />
-            <End Role="Cliente1" EntitySet="Cliente" />
+            <End Role="CarritoCompras" EntitySet="CarritoCompras" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CarritoCompras_ModoPago" Association="Self.FK_CarritoCompras_ModoPago">
+            <End Role="ModoPago" EntitySet="ModoPago" />
+            <End Role="CarritoCompras" EntitySet="CarritoCompras" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CarritoCompras_Productos" Association="Self.FK_CarritoCompras_Productos">
+            <End Role="Productos" EntitySet="Productos" />
+            <End Role="CarritoCompras" EntitySet="CarritoCompras" />
           </AssociationSet>
           <AssociationSet Name="FK_Departamento_Departamento" Association="Self.FK_Departamento_Departamento">
             <End Role="Departamento" EntitySet="Departamento" />
             <End Role="Departamento1" EntitySet="Departamento" />
           </AssociationSet>
-          <AssociationSet Name="FK_Detalle_ModoPago" Association="Self.FK_Detalle_ModoPago">
-            <End Role="ModoPago" EntitySet="ModoPago" />
-            <End Role="Detalle" EntitySet="Detalle" />
-          </AssociationSet>
           <AssociationSet Name="FK_Detalle_Productos" Association="Self.FK_Detalle_Productos">
             <End Role="Productos" EntitySet="Productos" />
             <End Role="Detalle" EntitySet="Detalle" />
           </AssociationSet>
-          <AssociationSet Name="FK_Productos_Departamento" Association="Self.FK_Productos_Departamento">
-            <End Role="Departamento" EntitySet="Departamento" />
-            <End Role="Productos" EntitySet="Productos" />
+          <AssociationSet Name="FK_Detalle_Venta" Association="Self.FK_Detalle_Venta">
+            <End Role="Venta" EntitySet="Venta" />
+            <End Role="Detalle" EntitySet="Detalle" />
           </AssociationSet>
           <AssociationSet Name="FK_Venta_Cliente" Association="Self.FK_Venta_Cliente">
             <End Role="Cliente" EntitySet="Cliente" />
             <End Role="Venta" EntitySet="Venta" />
           </AssociationSet>
-          <AssociationSet Name="FK_Venta_Detalle" Association="Self.FK_Venta_Detalle">
-            <End Role="Detalle" EntitySet="Detalle" />
+          <AssociationSet Name="FK_Venta_ModoPago" Association="Self.FK_Venta_ModoPago">
+            <End Role="ModoPago" EntitySet="ModoPago" />
             <End Role="Venta" EntitySet="Venta" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="HHKDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CarritoCompras">
+          <Key>
+            <PropertyRef Name="IdCarrito" />
+          </Key>
+          <Property Name="IdCarrito" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdCliente" Type="Int32" Nullable="false" />
+          <Property Name="Sku" Type="Int32" Nullable="false" />
+          <Property Name="Cantidad" Type="Int32" Nullable="false" />
+          <Property Name="Costo" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="IdMp" Type="Int32" Nullable="false" />
+          <Property Name="Ventido" Type="Boolean" Nullable="false" />
+          <Property Name="estaActivo" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Cliente" Relationship="Self.FK_CarritoCompras_Cliente" FromRole="CarritoCompras" ToRole="Cliente" />
+          <NavigationProperty Name="ModoPago" Relationship="Self.FK_CarritoCompras_ModoPago" FromRole="CarritoCompras" ToRole="ModoPago" />
+          <NavigationProperty Name="Productos" Relationship="Self.FK_CarritoCompras_Productos" FromRole="CarritoCompras" ToRole="Productos" />
+        </EntityType>
         <EntityType Name="Cliente">
           <Key>
             <PropertyRef Name="IdCliente" />
@@ -202,13 +254,13 @@
           <Property Name="PrimerApellido" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="segundoApellido" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Direccion" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Correo" Type="String" MaxLength="80" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Contrasena" Type="String" MaxLength="120" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Telefono" Type="String" MaxLength="12" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EsEmpleado" Type="Boolean" Nullable="false" />
           <Property Name="estaActivo" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Cliente1" Relationship="Self.FK_Cliente_Cliente" FromRole="Cliente" ToRole="Cliente1" />
-          <NavigationProperty Name="Cliente2" Relationship="Self.FK_Cliente_Cliente" FromRole="Cliente1" ToRole="Cliente" />
+          <NavigationProperty Name="CarritoCompras" Relationship="Self.FK_CarritoCompras_Cliente" FromRole="Cliente" ToRole="CarritoCompras" />
           <NavigationProperty Name="Venta" Relationship="Self.FK_Venta_Cliente" FromRole="Cliente" ToRole="Venta" />
-          <Property Name="Correo" Type="String" Nullable="false" MaxLength="80" FixedLength="false" Unicode="false" />
-          <Property Name="Contrasena" Type="String" Nullable="false" MaxLength="120" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Departamento">
           <Key>
@@ -220,19 +272,19 @@
           <Property Name="estaActivo" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Departamento1" Relationship="Self.FK_Departamento_Departamento" FromRole="Departamento" ToRole="Departamento1" />
           <NavigationProperty Name="Departamento2" Relationship="Self.FK_Departamento_Departamento" FromRole="Departamento1" ToRole="Departamento" />
-          <NavigationProperty Name="Productos" Relationship="Self.FK_Productos_Departamento" FromRole="Departamento" ToRole="Productos" />
         </EntityType>
         <EntityType Name="Detalle">
           <Key>
             <PropertyRef Name="IdDetalle" />
           </Key>
           <Property Name="IdDetalle" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdVenta" Type="Int32" Nullable="false" />
           <Property Name="Sku" Type="Int32" Nullable="false" />
+          <Property Name="Costo" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Total" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="Cantidad" Type="Int32" Nullable="false" />
-          <Property Name="IdMp" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="ModoPago" Relationship="Self.FK_Detalle_ModoPago" FromRole="Detalle" ToRole="ModoPago" />
           <NavigationProperty Name="Productos" Relationship="Self.FK_Detalle_Productos" FromRole="Detalle" ToRole="Productos" />
-          <NavigationProperty Name="Venta" Relationship="Self.FK_Venta_Detalle" FromRole="Detalle" ToRole="Venta" />
+          <NavigationProperty Name="Venta" Relationship="Self.FK_Detalle_Venta" FromRole="Detalle" ToRole="Venta" />
         </EntityType>
         <EntityType Name="ModoPago">
           <Key>
@@ -242,7 +294,8 @@
           <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="estaActivo" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Detalle" Relationship="Self.FK_Detalle_ModoPago" FromRole="ModoPago" ToRole="Detalle" />
+          <NavigationProperty Name="CarritoCompras" Relationship="Self.FK_CarritoCompras_ModoPago" FromRole="ModoPago" ToRole="CarritoCompras" />
+          <NavigationProperty Name="Venta" Relationship="Self.FK_Venta_ModoPago" FromRole="ModoPago" ToRole="Venta" />
         </EntityType>
         <EntityType Name="Productos">
           <Key>
@@ -251,11 +304,13 @@
           <Property Name="Sku" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Descripcion" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="DescripcionSecundaria" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="IdDepartamento" Type="Int32" Nullable="false" />
           <Property Name="RutaImagen" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="Costo" Type="Double" Nullable="false" />
+          <Property Name="Inventario" Type="Int32" />
           <Property Name="estaActivo" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Departamento" Relationship="Self.FK_Productos_Departamento" FromRole="Productos" ToRole="Departamento" />
+          <NavigationProperty Name="CarritoCompras" Relationship="Self.FK_CarritoCompras_Productos" FromRole="Productos" ToRole="CarritoCompras" />
           <NavigationProperty Name="Detalle" Relationship="Self.FK_Detalle_Productos" FromRole="Productos" ToRole="Detalle" />
         </EntityType>
         <EntityType Name="Venta">
@@ -264,22 +319,47 @@
           </Key>
           <Property Name="IdVenta" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="IdCliente" Type="Int32" Nullable="false" />
-          <Property Name="IdDetalle" Type="Int32" Nullable="false" />
+          <Property Name="IdMp" Type="Int32" Nullable="false" />
           <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="subtotal" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="Total" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <NavigationProperty Name="Cliente" Relationship="Self.FK_Venta_Cliente" FromRole="Venta" ToRole="Cliente" />
-          <NavigationProperty Name="Detalle" Relationship="Self.FK_Venta_Detalle" FromRole="Venta" ToRole="Detalle" />
+          <NavigationProperty Name="Detalle" Relationship="Self.FK_Detalle_Venta" FromRole="Venta" ToRole="Detalle" />
+          <NavigationProperty Name="ModoPago" Relationship="Self.FK_Venta_ModoPago" FromRole="Venta" ToRole="ModoPago" />
         </EntityType>
-        <Association Name="FK_Cliente_Cliente">
+        <Association Name="FK_CarritoCompras_Cliente">
           <End Role="Cliente" Type="Self.Cliente" Multiplicity="1" />
-          <End Role="Cliente1" Type="Self.Cliente" Multiplicity="0..1" />
+          <End Role="CarritoCompras" Type="Self.CarritoCompras" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Cliente">
               <PropertyRef Name="IdCliente" />
             </Principal>
-            <Dependent Role="Cliente1">
+            <Dependent Role="CarritoCompras">
               <PropertyRef Name="IdCliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CarritoCompras_ModoPago">
+          <End Role="ModoPago" Type="Self.ModoPago" Multiplicity="1" />
+          <End Role="CarritoCompras" Type="Self.CarritoCompras" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ModoPago">
+              <PropertyRef Name="IdMp" />
+            </Principal>
+            <Dependent Role="CarritoCompras">
+              <PropertyRef Name="IdMp" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CarritoCompras_Productos">
+          <End Role="Productos" Type="Self.Productos" Multiplicity="1" />
+          <End Role="CarritoCompras" Type="Self.CarritoCompras" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Productos">
+              <PropertyRef Name="Sku" />
+            </Principal>
+            <Dependent Role="CarritoCompras">
+              <PropertyRef Name="Sku" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -307,30 +387,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Productos_Departamento">
-          <End Role="Departamento" Type="Self.Departamento" Multiplicity="1" />
-          <End Role="Productos" Type="Self.Productos" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Departamento">
-              <PropertyRef Name="IdDepartamento" />
-            </Principal>
-            <Dependent Role="Productos">
-              <PropertyRef Name="IdDepartamento" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Detalle_ModoPago">
-          <End Role="ModoPago" Type="Self.ModoPago" Multiplicity="1" />
-          <End Role="Detalle" Type="Self.Detalle" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ModoPago">
-              <PropertyRef Name="IdMp" />
-            </Principal>
-            <Dependent Role="Detalle">
-              <PropertyRef Name="IdMp" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Detalle_Productos">
           <End Role="Productos" Type="Self.Productos" Multiplicity="1" />
           <End Role="Detalle" Type="Self.Detalle" Multiplicity="*" />
@@ -343,28 +399,49 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Venta_Detalle">
-          <End Role="Detalle" Type="Self.Detalle" Multiplicity="1" />
-          <End Role="Venta" Type="Self.Venta" Multiplicity="*" />
+        <Association Name="FK_Detalle_Venta">
+          <End Role="Venta" Type="Self.Venta" Multiplicity="1" />
+          <End Role="Detalle" Type="Self.Detalle" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Detalle">
-              <PropertyRef Name="IdDetalle" />
+            <Principal Role="Venta">
+              <PropertyRef Name="IdVenta" />
             </Principal>
-            <Dependent Role="Venta">
-              <PropertyRef Name="IdDetalle" />
+            <Dependent Role="Detalle">
+              <PropertyRef Name="IdVenta" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="HHKDBEntities1" annotation:LazyLoadingEnabled="true">
+        <Association Name="FK_Venta_ModoPago">
+          <End Role="ModoPago" Type="Self.ModoPago" Multiplicity="1" />
+          <End Role="Venta" Type="Self.Venta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ModoPago">
+              <PropertyRef Name="IdMp" />
+            </Principal>
+            <Dependent Role="Venta">
+              <PropertyRef Name="IdMp" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HHKDBEntities2" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CarritoCompras" EntityType="Self.CarritoCompras" />
           <EntitySet Name="Cliente" EntityType="Self.Cliente" />
           <EntitySet Name="Departamento" EntityType="Self.Departamento" />
           <EntitySet Name="Detalle" EntityType="Self.Detalle" />
           <EntitySet Name="ModoPago" EntityType="Self.ModoPago" />
           <EntitySet Name="Productos" EntityType="Self.Productos" />
           <EntitySet Name="Venta" EntityType="Self.Venta" />
-          <AssociationSet Name="FK_Cliente_Cliente" Association="Self.FK_Cliente_Cliente">
+          <AssociationSet Name="FK_CarritoCompras_Cliente" Association="Self.FK_CarritoCompras_Cliente">
             <End Role="Cliente" EntitySet="Cliente" />
-            <End Role="Cliente1" EntitySet="Cliente" />
+            <End Role="CarritoCompras" EntitySet="CarritoCompras" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CarritoCompras_ModoPago" Association="Self.FK_CarritoCompras_ModoPago">
+            <End Role="ModoPago" EntitySet="ModoPago" />
+            <End Role="CarritoCompras" EntitySet="CarritoCompras" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CarritoCompras_Productos" Association="Self.FK_CarritoCompras_Productos">
+            <End Role="Productos" EntitySet="Productos" />
+            <End Role="CarritoCompras" EntitySet="CarritoCompras" />
           </AssociationSet>
           <AssociationSet Name="FK_Venta_Cliente" Association="Self.FK_Venta_Cliente">
             <End Role="Cliente" EntitySet="Cliente" />
@@ -374,20 +451,16 @@
             <End Role="Departamento" EntitySet="Departamento" />
             <End Role="Departamento1" EntitySet="Departamento" />
           </AssociationSet>
-          <AssociationSet Name="FK_Productos_Departamento" Association="Self.FK_Productos_Departamento">
-            <End Role="Departamento" EntitySet="Departamento" />
-            <End Role="Productos" EntitySet="Productos" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Detalle_ModoPago" Association="Self.FK_Detalle_ModoPago">
-            <End Role="ModoPago" EntitySet="ModoPago" />
-            <End Role="Detalle" EntitySet="Detalle" />
-          </AssociationSet>
           <AssociationSet Name="FK_Detalle_Productos" Association="Self.FK_Detalle_Productos">
             <End Role="Productos" EntitySet="Productos" />
             <End Role="Detalle" EntitySet="Detalle" />
           </AssociationSet>
-          <AssociationSet Name="FK_Venta_Detalle" Association="Self.FK_Venta_Detalle">
+          <AssociationSet Name="FK_Detalle_Venta" Association="Self.FK_Detalle_Venta">
+            <End Role="Venta" EntitySet="Venta" />
             <End Role="Detalle" EntitySet="Detalle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Venta_ModoPago" Association="Self.FK_Venta_ModoPago">
+            <End Role="ModoPago" EntitySet="ModoPago" />
             <End Role="Venta" EntitySet="Venta" />
           </AssociationSet>
         </EntityContainer>
@@ -396,18 +469,33 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="HHKDBModelStoreContainer" CdmEntityContainer="HHKDBEntities1">
+        <EntityContainerMapping StorageEntityContainer="HHKDBModelStoreContainer" CdmEntityContainer="HHKDBEntities2">
+          <EntitySetMapping Name="CarritoCompras">
+            <EntityTypeMapping TypeName="HHKDBModel.CarritoCompras">
+              <MappingFragment StoreEntitySet="CarritoCompras">
+                <ScalarProperty Name="IdCarrito" ColumnName="IdCarrito" />
+                <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
+                <ScalarProperty Name="Sku" ColumnName="Sku" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="Costo" ColumnName="Costo" />
+                <ScalarProperty Name="IdMp" ColumnName="IdMp" />
+                <ScalarProperty Name="Ventido" ColumnName="Ventido" />
+                <ScalarProperty Name="estaActivo" ColumnName="estaActivo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Cliente">
             <EntityTypeMapping TypeName="HHKDBModel.Cliente">
               <MappingFragment StoreEntitySet="Cliente">
-                <ScalarProperty Name="Contrasena" ColumnName="Contrasena" />
-                <ScalarProperty Name="Correo" ColumnName="Correo" />
                 <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="PrimerApellido" ColumnName="PrimerApellido" />
                 <ScalarProperty Name="segundoApellido" ColumnName="segundoApellido" />
                 <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="Contrasena" ColumnName="Contrasena" />
                 <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="EsEmpleado" ColumnName="EsEmpleado" />
                 <ScalarProperty Name="estaActivo" ColumnName="estaActivo" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -426,9 +514,11 @@
             <EntityTypeMapping TypeName="HHKDBModel.Detalle">
               <MappingFragment StoreEntitySet="Detalle">
                 <ScalarProperty Name="IdDetalle" ColumnName="IdDetalle" />
+                <ScalarProperty Name="IdVenta" ColumnName="IdVenta" />
                 <ScalarProperty Name="Sku" ColumnName="Sku" />
+                <ScalarProperty Name="Costo" ColumnName="Costo" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
                 <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
-                <ScalarProperty Name="IdMp" ColumnName="IdMp" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -448,9 +538,11 @@
                 <ScalarProperty Name="Sku" ColumnName="Sku" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="DescripcionSecundaria" ColumnName="DescripcionSecundaria" />
                 <ScalarProperty Name="IdDepartamento" ColumnName="IdDepartamento" />
                 <ScalarProperty Name="RutaImagen" ColumnName="RutaImagen" />
                 <ScalarProperty Name="Costo" ColumnName="Costo" />
+                <ScalarProperty Name="Inventario" ColumnName="Inventario" />
                 <ScalarProperty Name="estaActivo" ColumnName="estaActivo" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -460,7 +552,7 @@
               <MappingFragment StoreEntitySet="Venta">
                 <ScalarProperty Name="IdVenta" ColumnName="IdVenta" />
                 <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
-                <ScalarProperty Name="IdDetalle" ColumnName="IdDetalle" />
+                <ScalarProperty Name="IdMp" ColumnName="IdMp" />
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />
                 <ScalarProperty Name="subtotal" ColumnName="subtotal" />
                 <ScalarProperty Name="Total" ColumnName="Total" />

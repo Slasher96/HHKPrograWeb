@@ -335,6 +335,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="CarritoCompras.cs">
+      <DependentUpon>HHKBD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Cliente.cs">
       <DependentUpon>HHKBD.tt</DependentUpon>
     </Compile>

@@ -53,7 +53,7 @@ namespace ProyectoPrograWebHHK.Models
 
         public void AddClient(ClientModel model)
         {
-            using (var context = new HHKDBEntities1())
+            using (var context = new HHKDBEntities2())
             {
                 context.Cliente.Add(new Cliente
                 {

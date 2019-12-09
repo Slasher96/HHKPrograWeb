@@ -20,7 +20,7 @@ namespace ProyectoPrograWebHHK.Models
 
         public bool LogIn(AccountModel model)
         {
-            using (var context = new HHKDBEntities1())
+            using (var context = new HHKDBEntities2())
             {
                 if (context.Cliente.Any(c => c.estaActivo && c.Contrasena == model.Contrasena && CorreoElectronico == model.CorreoElectronico))
                 {

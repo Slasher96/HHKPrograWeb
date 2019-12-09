@@ -13,10 +13,10 @@ namespace ProyectoPrograWebHHK
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class HHKDBEntities1 : DbContext
+    public partial class HHKDBEntities2 : DbContext
     {
-        public HHKDBEntities1()
-            : base("name=HHKDBEntities1")
+        public HHKDBEntities2()
+            : base("name=HHKDBEntities2")
         {
         }
     
@@ -25,6 +25,7 @@ namespace ProyectoPrograWebHHK
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<CarritoCompras> CarritoCompras { get; set; }
         public virtual DbSet<Cliente> Cliente { get; set; }
         public virtual DbSet<Departamento> Departamento { get; set; }
         public virtual DbSet<Detalle> Detalle { get; set; }

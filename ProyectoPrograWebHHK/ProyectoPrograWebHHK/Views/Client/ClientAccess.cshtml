@@ -1,0 +1,50 @@
+﻿@model ProyectoPrograWebHHK.Models.AccountModel
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Acceso cliente</title>
+    <link href="@Url.Content("~/scripts/css/styleLogin.css")" rel='stylesheet' type='text/css' media="all">
+    <link rel="stylesheet" type="text/css" href="~/scripts/JS/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="~/scripts/bootstrap-4.0.0/dist/js/bootstrap.bundle.min.js">
+    <link rel="stylesheet" type="text/css" href="~/scripts/css/All.css">
+</head>
+<body>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+                <div class="card card-signin my-5">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Iniciar Sesión</h5>
+                        @using (Html.BeginForm("ClientAccess", "Client", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-signin" }))
+                        {
+                            <div class="form-label-group">
+                                @Html.TextBoxFor(a => a.CorreoElectronico, new { @class = "form-signin" })<br />
+                                @Html.LabelFor(a => a.CorreoElectronico)
+                                <p style="color:red">@Html.ValidationMessageFor(a => a.CorreoElectronico)</p>
+                            </div>
+
+                            <div class="form-label-group">
+                                @Html.PasswordFor(a => a.Contrasena, new { @class = "form-signin" })<br />
+                                @Html.LabelFor(a => a.Contrasena)
+                                <p style="color:red">@Html.ValidationMessageFor(a => a.Contrasena)</p>
+                            </div>
+                            <a href="@Url.Action("AddUser","Client")">¿Eres un nuevo cliente?</a>
+                            <br />
+                            <br />
+                            <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Acceder</button>
+                            <hr class="my-4">
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

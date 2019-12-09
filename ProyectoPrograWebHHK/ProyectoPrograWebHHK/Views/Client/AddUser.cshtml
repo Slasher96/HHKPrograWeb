@@ -1,0 +1,101 @@
+﻿@model ProyectoPrograWebHHK.Models.ClientModel
+
+<html lang="es-mx">
+<head>
+    <title>Agregar Cliente</title>
+    <!-- Meta tags -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script>
+        addEventListener("load", function () { setTimeout(hideURLbar, 0); }, false); function hideURLbar() { window.scrollTo(0, 1); }
+    </script>
+    <!-- Meta tags -->
+    <!-- font-awesome icons -->
+    <link href="@Url.Content("~/scripts/css/fontawesome-all.min.css")" rel="stylesheet" type="text/css" media="all">
+    <!-- //font-awesome icons -->
+    <!--stylesheets-->
+    <link href="@Url.Content("~/scripts/css/styleRegister.css")" rel='stylesheet' type='text/css' media="all">
+    <!--//style sheet end here-->
+    <link href="//fonts.googleapis.com/css?family=Montserrat:300,400,500,600" rel="stylesheet">
+</head>
+<body>
+    <div>
+        <br />
+        <br />
+        <br />
+        <h1 class="header-w3ls">
+            HHK Nuevo Cliente
+        </h1>
+        <div class="mid-cls">
+            @using (Html.BeginForm())
+            {
+            <div class="main">
+                <div class="icon-head-wthree">
+                    <div class="images-headder">
+                        <div class="wrap-custom-file">
+                            <label for="image1">
+                                <span><img src="@Url.Content("~/Resources/images/Logo.PNG")" alt="" class="image-fluid"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-left-to-w3l">
+                    @Html.LabelFor(a => a.Nombre)
+                    @Html.TextBoxFor(a => a.Nombre)<br />
+                    <p style="color:red">@Html.ValidationMessageFor(a => a.Nombre)</p>
+                    <br />
+                </div>
+                <div class="form-left-to-w3l">
+                    @Html.LabelFor(a => a.PrimerApellido)
+                    @Html.TextBoxFor(a => a.PrimerApellido)<br />
+                    <p style="color:red">@Html.ValidationMessageFor(a => a.PrimerApellido)</p>
+                    <br />
+                </div>
+                <div class="form-left-to-w3l">
+                    @Html.LabelFor(a => a.SegundoApellido)
+                    @Html.TextBoxFor(a => a.SegundoApellido)<br />
+                    <p style="color:red">@Html.ValidationMessageFor(a => a.SegundoApellido)</p>
+                    <div class="clear"></div>
+                </div>
+                <div class="form-left-to-w3l">
+                    @Html.LabelFor(a => a.Telefono)
+                    @Html.TextBoxFor(a => a.Telefono)<br />
+                    <p style="color:red">@Html.ValidationMessageFor(a => a.Telefono)</p>
+                </div>
+                <div class="form-left-to-w3l">
+                    @Html.LabelFor(a => a.Direccion)
+                    @Html.TextBoxFor(a => a.Direccion)<br />
+                    <p style="color:red">@Html.ValidationMessageFor(a => a.Direccion)</p>
+                </div>
+                <div class="form-left-to-w3l">
+                    @Html.LabelFor(a => a.CorreoElectronico)
+                    @Html.TextBoxFor(a => a.CorreoElectronico)<br />
+                    <p style="color:red">@Html.ValidationMessageFor(a => a.CorreoElectronico)</p>
+                </div>
+                <div class="form-right-w3ls ">
+                    @Html.LabelFor(a => a.Contrasena)
+                    @Html.PasswordFor(a => a.Contrasena)<br />
+                    <p style="color:red">@Html.ValidationMessageFor(a => a.Contrasena)</p>
+                </div>
+                <div class="form-right-w3ls ">
+                    @Html.LabelFor(a => a.RepetirContrasena)
+                    @Html.PasswordFor(a => a.RepetirContrasena)<br />
+                    <p style="color:red">@Html.ValidationMessageFor(a => a.RepetirContrasena)</p>
+                </div>
+
+                <div class="btnn">
+                    <button type="submit">Agregar</button><br>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+    <div class="copy">
+        <p>&copy;Antonio Contreras Universidad UCAD</p>
+    </div>
+    <!--js working-->
+    <script src='@Url.Content("~/JS/jquery-2.2.3.min.js")'></script>
+    <!--//js working-->
+</body>
+</html>

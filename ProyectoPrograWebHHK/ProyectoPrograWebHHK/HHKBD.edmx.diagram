@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="5c1e9d2f0e0d46ff8b8fd3fcc8a8b670" Name="Diagram1">
+        <EntityTypeShape EntityType="HHKDBModel.Cliente" Width="1.5" PointX="3" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HHKDBModel.Departamento" Width="1.5" PointX="1.5" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="HHKDBModel.Detalle" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="HHKDBModel.ModoPago" Width="1.5" PointX="0.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="HHKDBModel.Productos" Width="1.5" PointX="0.75" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="HHKDBModel.Venta" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <AssociationConnector Association="HHKDBModel.FK_Cliente_Cliente" ManuallyRouted="false" />
+        <AssociationConnector Association="HHKDBModel.FK_Venta_Cliente" ManuallyRouted="false" />
+        <AssociationConnector Association="HHKDBModel.FK_Departamento_Departamento" ManuallyRouted="false" />
+        <AssociationConnector Association="HHKDBModel.FK_Productos_Departamento" ManuallyRouted="false" />
+        <AssociationConnector Association="HHKDBModel.FK_Detalle_ModoPago" ManuallyRouted="false" />
+        <AssociationConnector Association="HHKDBModel.FK_Detalle_Productos" ManuallyRouted="false" />
+        <AssociationConnector Association="HHKDBModel.FK_Venta_Detalle" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

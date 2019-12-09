@@ -132,12 +132,12 @@ namespace ProyectoPrograWebHHK.Models
                     {
                         return true;
                     }
-
                 }
-                catch (Exception e)
+                catch (Exception )
                 {
                     return false;
                 }
+
                 return false;
             }
         }

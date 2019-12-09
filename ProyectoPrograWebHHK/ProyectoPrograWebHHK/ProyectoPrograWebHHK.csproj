@@ -374,6 +374,7 @@
     <Compile Include="Models\ProductModel.cs" />
     <Compile Include="Models\SaleModel.cs" />
     <Compile Include="Models\ServiciosModel.cs" />
+    <Compile Include="Models\ShoppingCartModel.cs" />
     <Compile Include="ModoPago.cs">
       <DependentUpon>HHKBD.tt</DependentUpon>
     </Compile>
@@ -663,6 +664,7 @@
     <Content Include="Views\Shared\AdministrationLayout.cshtml" />
     <Content Include="Views\Client\AddUser.cshtml" />
     <Content Include="Views\Client\ServiceFindAgencies.cshtml" />
+    <Content Include="Views\Client\Cart.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

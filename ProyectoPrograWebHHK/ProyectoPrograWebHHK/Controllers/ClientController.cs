@@ -48,12 +48,6 @@ namespace ProyectoPrograWebHHK.Controllers
             return View();
         }
 
-        [HttpPost]
-        public ActionResult BuyNow(int idProducto)
-        {
-            return View();
-        }
-
         public ActionResult AddUser()
         {
             return View();
@@ -79,6 +73,19 @@ namespace ProyectoPrograWebHHK.Controllers
         public ActionResult ServiceFindMechanical()
         {
             return View();
+        }
+
+        public ActionResult Cart()
+        {
+            return View(new ShoppingCartModel {ShoppingCarts = new List<ShoppingCartModel>() });
+        }
+
+        [HttpPost]
+        public ActionResult Cart(int idCliente)
+        {
+            var model = new ShoppingCartModel { ShoppingCarts = new ShoppingCartModel().GetProductInCartByClient(idCliente) };
+
+            return View(model);
         }
     }
 }

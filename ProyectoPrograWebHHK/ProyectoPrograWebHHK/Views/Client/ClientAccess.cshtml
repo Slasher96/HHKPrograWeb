@@ -22,8 +22,10 @@
                 <div class="card card-signin my-5">
                     <div class="card-body">
                         <h5 class="card-title text-center">Iniciar Sesión</h5>
+                      <p style="color:red"> @Html.Raw(TempData["CustomError"])</p>
                         @using (Html.BeginForm("ClientAccess", "Client", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-signin" }))
                         {
+                            @Html.AntiForgeryToken()
                             <div class="form-label-group">
                                 @Html.TextBoxFor(a => a.CorreoElectronico, new { @class = "form-signin" })<br />
                                 @Html.LabelFor(a => a.CorreoElectronico)

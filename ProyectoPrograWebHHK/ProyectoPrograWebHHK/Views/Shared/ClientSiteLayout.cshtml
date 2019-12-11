@@ -42,13 +42,23 @@
             </div>
             <a href="@Url.Action("AboutUs","Client")" class="w3-bar-item w3-button w3-padding-large w3-hide-small" style="bottom:0px;">Acerca de nosotros</a>
             @*--------------------------Botones cliente administrador------------------------------------*@
-        <a href="@Url.Action("Cart","Client")" class="w3-padding-large w3-hover-red w3-hide-small w3-right">
-            <i class="fa fa-shopping-cart"></i> Carrito
-            <span class="badge badge-light">3</span>
-        </a>
 
-            <a href="@Url.Action("ClientAccess","Client")" class="w3-padding-large w3-hover-red w3-hide-small w3-right">Acceso Cliente</a>
-            <a href="@Url.Action("Index","Administration")" class="w3-padding-large w3-hover-red w3-hide-small w3-right">Administración</a>
+            @if (this.Session["User"] != null)
+            {
+                <a href="@Url.Action("Cart","Client")" class="w3-padding-large w3-hover-red w3-hide-small w3-right">
+                    <i class="fa fa-shopping-cart"></i> Carrito
+                    <span class="badge badge-light">3</span>
+                </a>
+            }
+            @if (this.Session["User"] == null)
+            {
+                <a href="@Url.Action("ClientAccess", "Client")" class="w3-padding-large w3-hover-red w3-hide-small w3-right">Acceso Cliente</a>
+                <a href="@Url.Action("Index", "Administration")" class="w3-padding-large w3-hover-red w3-hide-small w3-right">Administración</a>
+            }
+            else
+            {
+                <a href="@Url.Action("ClientAccess", "Client")" class="w3-padding-large w3-hover-red w3-hide-small w3-right" onclick="LogOff()">Cerrar Sesión</a>
+            }
         </div>
     </div>
     <div id="navDemo" class="w3-bar-block w3-black w3-hide w3-hide-large w3-hide-medium w3-top" style="margin-top:46px">
@@ -56,7 +66,10 @@
         <a href="@Url.Action("Motorcycles","Client")" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">Motocicletas</a>
         <a href="@Url.Action("MotorcycleParts","Client")" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">Refacciones</a>
         <a href="@Url.Action("ServiceFindAgencies","Client")" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">Mecánicos de motos cerca</a>
-        <a href="@Url.Action("Cart","Client")" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">Carrito</a>
+        @if (this.Session["User"] != null)
+        {
+            <a href="@Url.Action("Cart","Client")" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">Carrito</a>
+        }
         <a href="@Url.Action("ClientAccess","Client")" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">Acceso Cliente</a>
         <a href="@Url.Action("AboutUs","Client")" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">Acerca de nosotros</a>
     </div>
@@ -83,5 +96,13 @@
         if (event.target == modal) {
             modal.style.display = "none";
         }
+    }
+
+    function LogOff() {
+        $.post('@Url.Action("LogOff", "Client")', {}, function (response) {
+            if (response.url != undefined) {
+                window.location = response.url;
+            }
+        });
     }
 </script>

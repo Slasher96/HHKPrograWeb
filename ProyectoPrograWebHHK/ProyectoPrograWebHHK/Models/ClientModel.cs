@@ -51,22 +51,51 @@ namespace ProyectoPrograWebHHK.Models
         public bool EstaActivo { get; set; }
 
 
-        public void AddClient(ClientModel model)
+        public bool AddClient(ClientModel model)
         {
             using (var context = new HHKDBEntities2())
             {
-                context.Cliente.Add(new Cliente
+                if (!context.Cliente.Any(a => a.Correo == model.CorreoElectronico))
                 {
-                    Nombre = model.Nombre,
-                    PrimerApellido = model.PrimerApellido,
-                    segundoApellido = model.SegundoApellido,
-                    Direccion = model.Direccion,
-                    Telefono = model.Telefono,
-                    Contrasena=model.Contrasena,
-                    Correo = model.CorreoElectronico,
-                    estaActivo = true
-                });
-                context.SaveChanges();
+
+                    context.Cliente.Add(new Cliente
+                    {
+                        Nombre = model.Nombre,
+                        PrimerApellido = model.PrimerApellido,
+                        segundoApellido = model.SegundoApellido,
+                        Direccion = model.Direccion,
+                        Telefono = model.Telefono,
+                        Contrasena = model.Contrasena,
+                        Correo = model.CorreoElectronico,
+                        estaActivo = true
+                    });
+
+                    if (context.SaveChanges() > 0)
+                    {
+                        return true;
+                    }
+
+                    return false;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        public int GetIdClientByEmail(AccountModel model)
+        {
+            using (var context = new HHKDBEntities2())
+            {
+                try
+                {
+                    return context.Cliente.Where(a => a.Correo == model.CorreoElectronico).First().IdCliente;
+                }
+                catch (Exception)
+                {
+                    return 0;
+                }
             }
         }
     }

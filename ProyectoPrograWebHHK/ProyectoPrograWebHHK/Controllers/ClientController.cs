@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace ProyectoPrograWebHHK.Controllers
 {
@@ -37,15 +38,34 @@ namespace ProyectoPrograWebHHK.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
         public ActionResult ClientAccess(AccountModel model)
         {
-
-            if (!new AccountModel().LogIn(model) && ModelState.IsValid)
+            if (new AccountModel().LogIn(model) && ModelState.IsValid)
             {
-                ModelState.AddModelError("Usuario o contraseña invalidos", "Error al acceder");
-            }
+                this.Session["LoggedClient"] = model;
+                var cliente = (AccountModel)this.Session["LoggedClient"];
+                FormsAuthentication.RedirectFromLoginPage(model.CorreoElectronico, true);
 
-            return View();
+                return RedirectToAction("Cart");
+            }
+            else
+            {
+                TempData["CustomError"] = "Usuario o contraseña invalidos";
+                return View();
+            }
+        }
+
+        /// <summary>
+        /// Cierra la sesión actual
+        /// </summary>
+        /// <returns>Regresa url para solicitar inicio de sesión nuevamente</returns>
+        [HttpPost]
+        public ActionResult LogOff()
+        {
+            this.Session["LoggedClient"] = null;
+            return this.Json(new { result = "Redirect", url = Url.Action("Index", "Client") });
         }
 
         public ActionResult AddUser()
@@ -58,9 +78,13 @@ namespace ProyectoPrograWebHHK.Controllers
         {
             if (ModelState.IsValid)
             {
-                new ClientModel().AddClient(model);
+                if (new ClientModel().AddClient(model))
+                {
+                    return View("Index");
+                }
+                ModelState.AddModelError("Error","El correo ya existe");
+                return View();
             }
-
             return View();
         }
 
@@ -77,12 +101,8 @@ namespace ProyectoPrograWebHHK.Controllers
 
         public ActionResult Cart()
         {
-            return View(new ShoppingCartModel {ShoppingCarts = new List<ShoppingCartModel>() });
-        }
-
-        [HttpPost]
-        public ActionResult Cart(int idCliente)
-        {
+            var cliente = (AccountModel)this.Session["LoggedClient"];
+            var idCliente = new ClientModel().GetIdClientByEmail(cliente);
             var model = new ShoppingCartModel { ShoppingCarts = new ShoppingCartModel().GetProductInCartByClient(idCliente) };
 
             return View(model);

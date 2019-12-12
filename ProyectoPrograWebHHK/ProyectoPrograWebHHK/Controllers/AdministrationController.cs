@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace ProyectoPrograWebHHK.Controllers
 {
+    [Authorize]
     public class AdministrationController : Controller
     {
         // GET: Administration
@@ -19,18 +21,35 @@ namespace ProyectoPrograWebHHK.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Index(AccountModel model)
         {
-            if (!new AccountModel().LogIn(model) && ModelState.IsValid)
+            if (!new AccountModel().LogInEmployee(model) && ModelState.IsValid)
             {
-                ModelState.AddModelError("Usuario o contraseña invalidos", "Error al acceder");
+                TempData["CustomError"] = "Usuario o contraseña invalidos";
+                return View();
             }
-
-            return View();
+            else
+            {
+                FormsAuthentication.SetAuthCookie(model.CorreoElectronico, false);
+                FormsAuthentication.RedirectFromLoginPage(model.CorreoElectronico, true);
+                return View("Dashboard");
+            }
         }
-
-        [Authorize]
+        
         public ActionResult Dashboard()
         {
-            return View();
+            var listModel = new ClientModel().GetClients();
+            
+            return View(new ClientModel { ClientList = listModel });
+        }
+
+        /// <summary>
+        /// Cierra la sesión actual
+        /// </summary>
+        /// <returns>Regresa url para solicitar inicio de sesión nuevamente</returns>
+        public ActionResult LogOff()
+        {
+            this.Session["LoggedClient"] = null;
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Index", "Client");
         }
     }
 }

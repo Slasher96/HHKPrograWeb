@@ -22,6 +22,7 @@
                 <div class="card card-signin my-5">
                     <div class="card-body">
                         <h5 class="card-title text-center">Iniciar Sesión Asociado</h5>
+                        <p style="color:red"> @Html.Raw(TempData["CustomError"])</p>
                         @using (Html.BeginForm("Index", "Administration", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-signin" }))
                         {
                             <div class="form-label-group">

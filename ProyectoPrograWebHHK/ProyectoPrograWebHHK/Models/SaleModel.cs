@@ -24,6 +24,33 @@ namespace ProyectoPrograWebHHK.Models
 
         public int ModoPago { get; set; }
 
+        public void GetVentas()
+        {
+            var listaVentas = new List<SaleModel>();
+            using (var context = new HHKDBEntities2())
+            {
+                try
+                {
+                    foreach (var item in context.Venta.ToList())
+                    {
+                        listaVentas.Add(new SaleModel
+                        {
+                              IdCliente = item.IdCliente,
+                              
+                        });
+                    }
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }
+        }
+    }
+
+    public class DetalleModel
+    {
 
     }
 }

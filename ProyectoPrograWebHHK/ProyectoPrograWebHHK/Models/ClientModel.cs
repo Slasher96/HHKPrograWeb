@@ -50,6 +50,8 @@ namespace ProyectoPrograWebHHK.Models
 
         public bool EstaActivo { get; set; }
 
+        public List<ClientModel> ClientList { get; set; }
+
 
         public bool AddClient(ClientModel model)
         {
@@ -97,6 +99,37 @@ namespace ProyectoPrograWebHHK.Models
                     return 0;
                 }
             }
+        }
+
+        public List<ClientModel> GetClients()
+        {
+            var clientList = new List<ClientModel>();
+            using (var context = new HHKDBEntities2())
+            {
+                try
+                {
+                    foreach (var model in context.Cliente.Where(a=> a.EsEmpleado == false).ToList())
+                    {
+                        clientList.Add(new ClientModel
+                        {
+                            Nombre = model.Nombre,
+                            PrimerApellido = model.PrimerApellido,
+                            SegundoApellido = model.segundoApellido,
+                            Direccion = model.Direccion,
+                            Telefono = model.Telefono,
+                            Contrasena = model.Contrasena,
+                            CorreoElectronico = model.Correo,
+                            EstaActivo = model.estaActivo,
+                            IdCliente = model.IdCliente,
+                        });
+                    } 
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+            return clientList;
         }
     }
 }

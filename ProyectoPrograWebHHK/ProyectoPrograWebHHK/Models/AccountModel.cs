@@ -30,5 +30,18 @@ namespace ProyectoPrograWebHHK.Models
 
             return false;
         }
+
+        public bool LogInEmployee(AccountModel model)
+        {
+            using (var context = new HHKDBEntities2())
+            {
+                if (context.Cliente.Any(c => c.estaActivo && c.Contrasena == model.Contrasena && c.Correo == model.CorreoElectronico && c.EsEmpleado))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }

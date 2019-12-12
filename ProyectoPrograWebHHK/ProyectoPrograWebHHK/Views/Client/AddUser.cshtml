@@ -29,65 +29,66 @@
         <div class="mid-cls">
             @using (Html.BeginForm())
             {
-            <div class="main">
-                <div class="icon-head-wthree">
-                    <div class="images-headder">
-                        <div class="wrap-custom-file">
-                            <label for="image1">
-                                <span><img src="@Url.Content("~/Resources/images/Logo.PNG")" alt="" class="image-fluid"></span>
-                            </label>
+                @Html.AntiForgeryToken()
+                <div class="main">
+                    <div class="icon-head-wthree">
+                        <div class="images-headder">
+                            <div class="wrap-custom-file">
+                                <label for="image1">
+                                    <span><img src="@Url.Content("~/Resources/images/Logo.PNG")" alt="" class="image-fluid"></span>
+                                </label>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="form-left-to-w3l">
-                    @Html.LabelFor(a => a.Nombre)
-                    @Html.TextBoxFor(a => a.Nombre)<br />
-                    <p style="color:red">@Html.ValidationMessageFor(a => a.Nombre)</p>
-                    <br />
-                </div>
-                <div class="form-left-to-w3l">
-                    @Html.LabelFor(a => a.PrimerApellido)
-                    @Html.TextBoxFor(a => a.PrimerApellido)<br />
-                    <p style="color:red">@Html.ValidationMessageFor(a => a.PrimerApellido)</p>
-                    <br />
-                </div>
-                <div class="form-left-to-w3l">
-                    @Html.LabelFor(a => a.SegundoApellido)
-                    @Html.TextBoxFor(a => a.SegundoApellido)<br />
-                    <p style="color:red">@Html.ValidationMessageFor(a => a.SegundoApellido)</p>
-                    <div class="clear"></div>
-                </div>
-                <div class="form-left-to-w3l">
-                    @Html.LabelFor(a => a.Telefono)
-                    @Html.TextBoxFor(a => a.Telefono)<br />
-                    <p style="color:red">@Html.ValidationMessageFor(a => a.Telefono)</p>
-                </div>
-                <div class="form-left-to-w3l">
-                    @Html.LabelFor(a => a.Direccion)
-                    @Html.TextBoxFor(a => a.Direccion)<br />
-                    <p style="color:red">@Html.ValidationMessageFor(a => a.Direccion)</p>
-                </div>
-                <div class="form-left-to-w3l">
-                    @Html.LabelFor(a => a.CorreoElectronico)
-                    @Html.TextBoxFor(a => a.CorreoElectronico)<br />
-                    <p style="color:red">@Html.ValidationMessageFor(a => a.CorreoElectronico)</p>
-                </div>
-                <div class="form-right-w3ls ">
-                    @Html.LabelFor(a => a.Contrasena)
-                    @Html.PasswordFor(a => a.Contrasena)<br />
-                    <p style="color:red">@Html.ValidationMessageFor(a => a.Contrasena)</p>
-                </div>
-                <div class="form-right-w3ls ">
-                    @Html.LabelFor(a => a.RepetirContrasena)
-                    @Html.PasswordFor(a => a.RepetirContrasena)<br />
-                    <p style="color:red">@Html.ValidationMessageFor(a => a.RepetirContrasena)</p>
-                </div>
+                    <div class="form-left-to-w3l">
+                        @Html.LabelFor(a => a.Nombre)
+                        @Html.TextBoxFor(a => a.Nombre)<br />
+                        <p style="color:red">@Html.ValidationMessageFor(a => a.Nombre)</p>
+                        <br />
+                    </div>
+                    <div class="form-left-to-w3l">
+                        @Html.LabelFor(a => a.PrimerApellido)
+                        @Html.TextBoxFor(a => a.PrimerApellido)<br />
+                        <p style="color:red">@Html.ValidationMessageFor(a => a.PrimerApellido)</p>
+                        <br />
+                    </div>
+                    <div class="form-left-to-w3l">
+                        @Html.LabelFor(a => a.SegundoApellido)
+                        @Html.TextBoxFor(a => a.SegundoApellido)<br />
+                        <p style="color:red">@Html.ValidationMessageFor(a => a.SegundoApellido)</p>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="form-left-to-w3l">
+                        @Html.LabelFor(a => a.Telefono)
+                        @Html.TextBoxFor(a => a.Telefono)<br />
+                        <p style="color:red">@Html.ValidationMessageFor(a => a.Telefono)</p>
+                    </div>
+                    <div class="form-left-to-w3l">
+                        @Html.LabelFor(a => a.Direccion)
+                        @Html.TextBoxFor(a => a.Direccion)<br />
+                        <p style="color:red">@Html.ValidationMessageFor(a => a.Direccion)</p>
+                    </div>
+                    <div class="form-left-to-w3l">
+                        @Html.LabelFor(a => a.CorreoElectronico)
+                        @Html.TextBoxFor(a => a.CorreoElectronico)<br />
+                        <p style="color:red">@Html.ValidationMessageFor(a => a.CorreoElectronico)</p>
+                    </div>
+                    <div class="form-right-w3ls ">
+                        @Html.LabelFor(a => a.Contrasena)
+                        @Html.PasswordFor(a => a.Contrasena)<br />
+                        <p style="color:red">@Html.ValidationMessageFor(a => a.Contrasena)</p>
+                    </div>
+                    <div class="form-right-w3ls ">
+                        @Html.LabelFor(a => a.RepetirContrasena)
+                        @Html.PasswordFor(a => a.RepetirContrasena)<br />
+                        <p style="color:red">@Html.ValidationMessageFor(a => a.RepetirContrasena)</p>
+                    </div>
 
-                <div class="btnn">
-                    <button type="submit">Agregar</button><br>
-                    <div class="clear"></div>
+                    <div class="btnn">
+                        <button type="submit">Agregar</button><br>
+                        <div class="clear"></div>
+                    </div>
                 </div>
-            </div>
             }
         </div>
     </div>

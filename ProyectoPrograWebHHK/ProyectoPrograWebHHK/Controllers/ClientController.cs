@@ -38,7 +38,6 @@ namespace ProyectoPrograWebHHK.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public ActionResult ClientAccess(AccountModel model)
         {
@@ -46,6 +45,7 @@ namespace ProyectoPrograWebHHK.Controllers
             {
                 this.Session["LoggedClient"] = model;
                 var cliente = (AccountModel)this.Session["LoggedClient"];
+                FormsAuthentication.SetAuthCookie(model.CorreoElectronico, false);
                 FormsAuthentication.RedirectFromLoginPage(model.CorreoElectronico, true);
 
                 return RedirectToAction("Cart");
@@ -74,6 +74,7 @@ namespace ProyectoPrograWebHHK.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult AddUser(ClientModel model)
         {
             if (ModelState.IsValid)
@@ -82,7 +83,7 @@ namespace ProyectoPrograWebHHK.Controllers
                 {
                     return View("Index");
                 }
-                ModelState.AddModelError("Error","El correo ya existe");
+                ModelState.AddModelError("Error", "El correo ya existe");
                 return View();
             }
             return View();
@@ -99,6 +100,7 @@ namespace ProyectoPrograWebHHK.Controllers
             return View();
         }
 
+        [Authorize]
         public ActionResult Cart()
         {
             var cliente = (AccountModel)this.Session["LoggedClient"];

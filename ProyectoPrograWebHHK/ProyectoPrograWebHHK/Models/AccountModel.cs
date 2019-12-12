@@ -22,8 +22,7 @@ namespace ProyectoPrograWebHHK.Models
         {
             using (var context = new HHKDBEntities2())
             {
-                var valid = context.Cliente.Where(c => c.estaActivo && c.Contrasena == model.Contrasena && CorreoElectronico == model.CorreoElectronico).ToList();
-                if (context.Cliente.Any(c => c.estaActivo && c.Contrasena == model.Contrasena && CorreoElectronico == model.CorreoElectronico))
+                if (context.Cliente.Any(c => c.estaActivo && c.Contrasena == model.Contrasena && c.Correo == model.CorreoElectronico))
                 {
                     return true;
                 }

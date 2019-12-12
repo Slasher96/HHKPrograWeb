@@ -1,5 +1,4 @@
-﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html>
 <head>
@@ -43,14 +42,14 @@
             <a href="@Url.Action("AboutUs","Client")" class="w3-bar-item w3-button w3-padding-large w3-hide-small" style="bottom:0px;">Acerca de nosotros</a>
             @*--------------------------Botones cliente administrador------------------------------------*@
 
-            @if (this.Session["User"] != null)
+            @if (User.Identity.IsAuthenticated)
             {
                 <a href="@Url.Action("Cart","Client")" class="w3-padding-large w3-hover-red w3-hide-small w3-right">
                     <i class="fa fa-shopping-cart"></i> Carrito
                     <span class="badge badge-light">3</span>
                 </a>
             }
-            @if (this.Session["User"] == null)
+            @if (!User.Identity.IsAuthenticated)
             {
                 <a href="@Url.Action("ClientAccess", "Client")" class="w3-padding-large w3-hover-red w3-hide-small w3-right">Acceso Cliente</a>
                 <a href="@Url.Action("Index", "Administration")" class="w3-padding-large w3-hover-red w3-hide-small w3-right">Administración</a>

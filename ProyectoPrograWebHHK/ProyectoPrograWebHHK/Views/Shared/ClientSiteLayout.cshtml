@@ -56,7 +56,7 @@
             }
             else
             {
-                <a href="@Url.Action("ClientAccess", "Client")" class="w3-padding-large w3-hover-red w3-hide-small w3-right" onclick="LogOff()">Cerrar Sesión</a>
+                <a href="@Url.Action("LogOff", "Client")" class="w3-padding-large w3-hover-red w3-hide-small w3-right" >Cerrar Sesión</a>
             }
         </div>
     </div>
@@ -65,7 +65,7 @@
         <a href="@Url.Action("Motorcycles","Client")" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">Motocicletas</a>
         <a href="@Url.Action("MotorcycleParts","Client")" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">Refacciones</a>
         <a href="@Url.Action("ServiceFindAgencies","Client")" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">Mecánicos de motos cerca</a>
-        @if (this.Session["User"] != null)
+        @if (User.Identity.IsAuthenticated)
         {
             <a href="@Url.Action("Cart","Client")" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">Carrito</a>
         }
@@ -97,11 +97,5 @@
         }
     }
 
-    function LogOff() {
-        $.post('@Url.Action("LogOff", "Client")', {}, function (response) {
-            if (response.url != undefined) {
-                window.location = response.url;
-            }
-        });
-    }
+    
 </script>

@@ -61,11 +61,11 @@ namespace ProyectoPrograWebHHK.Controllers
         /// Cierra la sesión actual
         /// </summary>
         /// <returns>Regresa url para solicitar inicio de sesión nuevamente</returns>
-        [HttpPost]
         public ActionResult LogOff()
         {
             this.Session["LoggedClient"] = null;
-            return this.Json(new { result = "Redirect", url = Url.Action("Index", "Client") });
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Index","Client");
         }
 
         public ActionResult AddUser()
@@ -108,6 +108,17 @@ namespace ProyectoPrograWebHHK.Controllers
             var model = new ShoppingCartModel { ShoppingCarts = new ShoppingCartModel().GetProductInCartByClient(idCliente) };
 
             return View(model);
+        }
+
+
+        [Authorize]
+        public ActionResult BuyNow()
+        {
+            var cliente = (AccountModel)this.Session["LoggedClient"];
+            var idCliente = new ClientModel().GetIdClientByEmail(cliente);
+            var model = new ShoppingCartModel { ShoppingCarts = new ShoppingCartModel().GetProductInCartByClient(idCliente) };
+
+            return View();
         }
     }
 }

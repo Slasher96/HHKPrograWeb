@@ -300,6 +300,7 @@
     <Content Include="scripts\bootstrap-4.0.0\_layouts\home.html" />
     <Content Include="scripts\bootstrap-4.0.0\_layouts\redirect.html" />
     <Content Include="scripts\bootstrap-4.0.0\_layouts\simple.html" />
+    <Content Include="scripts\css\dashboard.css" />
     <Content Include="scripts\css\fontawesome-all.min.css" />
     <Content Include="scripts\css\IndexStyle.css" />
     <Content Include="scripts\css\All.css" />
@@ -665,6 +666,7 @@
     <Content Include="Views\Client\AddUser.cshtml" />
     <Content Include="Views\Client\ServiceFindAgencies.cshtml" />
     <Content Include="Views\Client\Cart.cshtml" />
+    <Content Include="Views\Administration\Dashboard.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

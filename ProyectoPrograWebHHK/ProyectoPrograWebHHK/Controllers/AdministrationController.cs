@@ -16,6 +16,7 @@ namespace ProyectoPrograWebHHK.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Index(AccountModel model)
         {
             if (!new AccountModel().LogIn(model) && ModelState.IsValid)
@@ -23,6 +24,12 @@ namespace ProyectoPrograWebHHK.Controllers
                 ModelState.AddModelError("Usuario o contraseña invalidos", "Error al acceder");
             }
 
+            return View();
+        }
+
+        [Authorize]
+        public ActionResult Dashboard()
+        {
             return View();
         }
     }

@@ -1,0 +1,36 @@
+﻿
+@using ProyectoPrograWebHHK.Models
+@{
+    var sale = new SaleModel();
+}
+
+<h2>Ventas</h2>
+<div class="table-responsive">
+    <table class="table table-striped table-sm">
+        <thead>
+            <tr>
+                <th>Id Cliente</th>
+                <th>Id Venta</th>
+                <th>Fecha Venta</th>
+                <th>sub total</th>
+                <th>Total</th>
+                <th>Detalles</th>
+                <th>Modo Pago</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in sale.GetVentas())
+            {
+                <tr>
+                    <td>@item.IdCliente</td>
+                    <td>@item.IdVenta</td>
+                    <td>@item.FechaVenta</td>
+                    <td>@item.Subtotal</td>
+                    <td>@item.Total</td>
+                    <td>@item.Detalles.Select(a => a.Cantidad)</td> @*cambiar oara que muestre la lista de detalles*@
+                    <td>@item.ModoPago</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

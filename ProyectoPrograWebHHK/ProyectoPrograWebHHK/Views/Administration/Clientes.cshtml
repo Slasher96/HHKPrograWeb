@@ -1,0 +1,39 @@
+﻿
+@using ProyectoPrograWebHHK.Models
+@{
+    var client = new ClientModel();
+}
+<h2>Clientes</h2>
+<div class="table-responsive">
+    <table class="table table-striped table-sm">
+        <thead>
+            <tr>
+                <th>Id Cliente</th>
+                <th>Nombre</th>
+                <th>Primer Apellido</th>
+                <th>Segundo Apellido</th>
+                <th>Teléfono</th>
+                <th>Dirección</th>
+                <th>Contraseña</th>
+                <th>Es empleado</th>
+                <th>Está Activo</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in client.GetClients())
+            {
+                <tr>
+                    <td>@item.IdCliente</td>
+                    <td>@item.Nombre</td>
+                    <td>@item.PrimerApellido</td>
+                    <td>@item.SegundoApellido</td>
+                    <td>@item.Telefono</td>
+                    <td>@item.Direccion</td>
+                    <td>@item.Contrasena</td>
+                    <td>@item.EsEmpleado</td>
+                    <td>@item.EstaActivo</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

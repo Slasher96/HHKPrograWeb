@@ -667,6 +667,10 @@
     <Content Include="Views\Client\ServiceFindAgencies.cshtml" />
     <Content Include="Views\Client\Cart.cshtml" />
     <Content Include="Views\Administration\Dashboard.cshtml" />
+    <Content Include="Views\Administration\Ventas.cshtml" />
+    <Content Include="Views\Administration\Clientes.cshtml" />
+    <Content Include="Views\Administration\Productos.cshtml" />
+    <Content Include="Views\Administration\AddProducts.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -50,6 +50,8 @@ namespace ProyectoPrograWebHHK.Models
 
         public bool EstaActivo { get; set; }
 
+        public bool EsEmpleado { get; set; }
+
         public List<ClientModel> ClientList { get; set; }
 
 
@@ -108,7 +110,7 @@ namespace ProyectoPrograWebHHK.Models
             {
                 try
                 {
-                    foreach (var model in context.Cliente.Where(a=> a.EsEmpleado == false).ToList())
+                    foreach (var model in context.Cliente.ToList())
                     {
                         clientList.Add(new ClientModel
                         {
@@ -120,6 +122,7 @@ namespace ProyectoPrograWebHHK.Models
                             Contrasena = model.Contrasena,
                             CorreoElectronico = model.Correo,
                             EstaActivo = model.estaActivo,
+                            EsEmpleado = model.EsEmpleado,
                             IdCliente = model.IdCliente,
                         });
                     } 

@@ -1,0 +1,37 @@
+﻿@model ProyectoPrograWebHHK.Models.ProductModel
+
+@{
+    List<SelectListItem> listItems = new List<SelectListItem>();
+
+    listItems.Add(new SelectListItem { Text = "Motocicletas", Value = "1" });
+    listItems.Add(new SelectListItem { Text = "Refacciones", Value = "2" });
+}
+    <div>
+        @using (Html.BeginForm("AddProduct", "administration"))
+        {
+            <div class="form-group">
+                @Html.TextBoxFor(a => a.Nombre, new { @class = "form-control", @placeholder = "Nombre" })
+            </div>
+            <div class="form-group">
+                @Html.TextBoxFor(a => a.Descripcion, new { @class = "form-control", @placeholder = "Descripción" })
+            </div>
+            <div class="form-group">
+                @Html.TextBoxFor(a => a.DescripcionSecundaria, new { @class = "form-control", @placeholder = "Descripción Secundaria" })
+            </div>
+            <div class="form-group">
+                @Html.DropDownListFor(a => a.IdDepartamento, listItems, "--Seleccionar--", new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                @Html.TextBoxFor(a => a.Costo, new { @class = "form-control", @placeholder = "Costo" })
+            </div>
+            <div class="form-group">
+                @Html.TextBoxFor(a => a.Inventario, new { @class = "form-control", @placeholder = "Inventario" })
+            </div>
+            <div class="form-group">
+                <input type="file" class="form-control-file" id="exampleFormControlFile1"> @*validar como cargar la imagen a resources o usar las de appdata o ver si la puedo guardar en la base de datos directamente y consumirla*@ 
+            </div>
+            <button type="submit" class="btn btn-primary mb-2">Agregar</button>
+        }
+
+    </div>
+

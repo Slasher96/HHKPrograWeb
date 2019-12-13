@@ -1,0 +1,41 @@
+﻿
+@using ProyectoPrograWebHHK.Models
+@{
+    var product = new ProductModel();
+}
+<h2>Productos</h2>
+<div class="table-responsive">
+    <table class="table table-striped table-sm">
+        <thead>
+            <tr>
+                <th>SKU</th>
+                <th>Descripción</th>
+                <th>Descripción secundaria</th>
+                <th>Costo</th>
+                <th>Inventario</th>
+                <th>Id Departamento</th>
+                <th>RutaImagen</th>
+                <th>Esta Activo</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in product.GetProductos())
+            {
+                <tr>
+                    <td>@item.Sku</td>
+                    <td>@item.Descripcion</td>
+                    <td>@item.DescripcionSecundaria</td>
+                    <td>@item.Costo</td>
+                    <td>@item.Inventario</td>
+                    <td>@item.IdDepartamento</td>
+                    <td>@item.RutaImagen</td>
+                    <td>@item.EstaActivo</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div>
+        <h2>Agregar productos</h2>
+        @RenderPage("~/Views/Administration/AddProducts.cshtml");
+    </div>
+</div>

@@ -8,7 +8,6 @@ using System.Web.Security;
 
 namespace ProyectoPrograWebHHK.Controllers
 {
-    [Authorize]
     public class AdministrationController : Controller
     {
         // GET: Administration
@@ -30,15 +29,15 @@ namespace ProyectoPrograWebHHK.Controllers
             {
                 FormsAuthentication.SetAuthCookie(model.CorreoElectronico, false);
                 FormsAuthentication.RedirectFromLoginPage(model.CorreoElectronico, true);
-                return View("Dashboard");
+                return RedirectToAction("Dashboard");
             }
         }
         
         public ActionResult Dashboard()
         {
-            var listModel = new ClientModel().GetClients();
+           
             
-            return View(new ClientModel { ClientList = listModel });
+            return View();
         }
 
         /// <summary>
@@ -50,6 +49,30 @@ namespace ProyectoPrograWebHHK.Controllers
             this.Session["LoggedClient"] = null;
             FormsAuthentication.SignOut();
             return RedirectToAction("Index", "Client");
+        }
+
+        public ActionResult Ventas()
+        {
+            this.Session["Vistas"] = "1";
+            return RedirectToAction("Dashboard");
+        }
+
+        public ActionResult Productos()
+        {
+            this.Session["Vistas"] = "2";
+            return RedirectToAction("Dashboard");
+        }
+
+        public ActionResult Clientes()
+        {
+            this.Session["Vistas"] = "0";
+            return RedirectToAction("Dashboard");
+        }
+
+        [HttpPost]
+        public ActionResult AddProduct(ProductModel model)
+        {
+            return View("Dashboard");
         }
     }
 }

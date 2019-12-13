@@ -25,6 +25,7 @@
                         <p style="color:red"> @Html.Raw(TempData["CustomError"])</p>
                         @using (Html.BeginForm("Index", "Administration", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-signin" }))
                         {
+                            @Html.AntiForgeryToken()
                             <div class="form-label-group">
                                 @Html.TextBoxFor(a => a.CorreoElectronico, new { @class = "form-signin" })<br />
                                 @Html.LabelFor(a => a.CorreoElectronico)

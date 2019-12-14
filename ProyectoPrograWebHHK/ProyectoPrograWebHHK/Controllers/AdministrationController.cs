@@ -1,6 +1,7 @@
 ﻿using ProyectoPrograWebHHK.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -10,6 +11,9 @@ namespace ProyectoPrograWebHHK.Controllers
 {
     public class AdministrationController : Controller
     {
+        private const int DptoMotos = 1;
+        private const int DptoRefacciones = 2;
+
         // GET: Administration
         public ActionResult Index()
         {
@@ -32,11 +36,11 @@ namespace ProyectoPrograWebHHK.Controllers
                 return RedirectToAction("Dashboard");
             }
         }
-        
+
         public ActionResult Dashboard()
         {
-           
-            
+
+
             return View();
         }
 
@@ -72,6 +76,23 @@ namespace ProyectoPrograWebHHK.Controllers
         [HttpPost]
         public ActionResult AddProduct(ProductModel model)
         {
+            if (ModelState.IsValid && Request.Files.Count > 0)
+            {
+                string path = string.Empty;
+                if (model.IdDepartamento == DptoRefacciones)
+                {
+                    path = Path.Combine(Server.MapPath("~/Resources/Images/Refacciones"), Path.GetFileName(model.ImageFile.FileName));
+                }
+                else if (model.IdDepartamento == DptoMotos)
+                {
+                    path = Path.Combine(Server.MapPath("~/Resources/Images/Motocicletas"), Path.GetFileName(model.ImageFile.FileName));
+                }
+
+                model.ImageFile.SaveAs(path);
+                model.RutaImagen = Path.GetFileName(model.ImageFile.FileName);
+                new ProductModel().AddProduct(model);
+            }
+
             return View("Dashboard");
         }
     }

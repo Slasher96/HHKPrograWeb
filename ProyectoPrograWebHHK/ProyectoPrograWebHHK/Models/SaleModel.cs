@@ -8,6 +8,7 @@ namespace ProyectoPrograWebHHK.Models
     public class SaleModel
     {
         public int IdVenta { get; set; }
+
         public int IdCliente { get; set; }
 
         public DateTime FechaVenta { get; set; }
@@ -43,10 +44,10 @@ namespace ProyectoPrograWebHHK.Models
                 }
                 catch (Exception)
                 {
-
                     throw;
                 }
             }
+
             return listaVentas;
         }
     }
@@ -78,6 +79,7 @@ namespace ProyectoPrograWebHHK.Models
                     });
                 }
             }
+
             return listaDetalle;
         }
     }

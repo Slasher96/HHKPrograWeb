@@ -94,7 +94,7 @@ namespace ProyectoPrograWebHHK.Models
             {
                 try
                 {
-                    return context.Cliente.Where(a => a.Correo == model.CorreoElectronico).First().IdCliente;
+                    return context.Cliente.Where(a => a.Correo == model.CorreoElectronico && !EsEmpleado).First().IdCliente;
                 }
                 catch (Exception)
                 {

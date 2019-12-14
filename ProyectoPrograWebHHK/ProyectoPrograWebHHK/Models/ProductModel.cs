@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Linq;
 using System.Web;
+using System.Xml.Linq;
 
 namespace ProyectoPrograWebHHK.Models
 {
@@ -13,9 +16,10 @@ namespace ProyectoPrograWebHHK.Models
         private const int idDepartamentoRefacciones = 2;
 
         public int Sku { get; set; }
+        [Required]
         public string Nombre { get; set; }
 
-
+        [Required]
         public string Descripcion { get; set; }
 
 
@@ -23,13 +27,17 @@ namespace ProyectoPrograWebHHK.Models
 
         public string RutaImagen { get; set; }
 
+        [Range(0, double.MaxValue, ErrorMessage = "Please enter valid doubleNumber")]
+        [Required]
         public double Costo { get; set; }
-
+        [Required]
         public int? Inventario { get; set; }
-
+        [Required]
         public int IdDepartamento { get; set; }
 
         public bool EstaActivo { get; set; }
+        
+        public HttpPostedFileBase ImageFile { get; set; }
 
         public List<ProductModel> ListaProductos { get; set; }
 
@@ -124,8 +132,8 @@ namespace ProyectoPrograWebHHK.Models
                         Costo = product.Costo,
                         estaActivo = true,
                         IdDepartamento = product.IdDepartamento,
-                        //RutaImagen = validar como extraer el nombre de la imagen y guardarla en el servidor
-                        Inventario = product.Inventario,
+                        RutaImagen = product.RutaImagen,
+                        Inventario = product.Inventario
                     });
 
                     if (context.SaveChanges() > 0)

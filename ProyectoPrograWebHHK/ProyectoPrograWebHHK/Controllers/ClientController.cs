@@ -65,7 +65,7 @@ namespace ProyectoPrograWebHHK.Controllers
         {
             this.Session["LoggedClient"] = null;
             FormsAuthentication.SignOut();
-            return RedirectToAction("Index","Client");
+            return RedirectToAction("Index", "Client");
         }
 
         public ActionResult AddUser()
@@ -106,19 +106,43 @@ namespace ProyectoPrograWebHHK.Controllers
             var cliente = (AccountModel)this.Session["LoggedClient"];
             var idCliente = new ClientModel().GetIdClientByEmail(cliente);
             var model = new ShoppingCartModel { ShoppingCarts = new ShoppingCartModel().GetProductInCartByClient(idCliente) };
+            foreach (var item in model.ShoppingCarts)
+            {
+                item.CostoTotal = item.CostoUnitario * item.Cantidad;
+            }
 
             return View(model);
         }
 
-
         [Authorize]
-        public ActionResult BuyNow()
+        public JsonResult BuyNow(int idProducto)
         {
             var cliente = (AccountModel)this.Session["LoggedClient"];
             var idCliente = new ClientModel().GetIdClientByEmail(cliente);
-            var model = new ShoppingCartModel { ShoppingCarts = new ShoppingCartModel().GetProductInCartByClient(idCliente) };
 
-            return View();
+            if (new ShoppingCartModel().AddPRoductToCar(idProducto, idCliente))
+            {
+                RedirectToAction("Cart", "Client");
+                return Json("success: true");
+            }
+
+            return Json("success: false");
+        }
+
+        [HttpPost]
+        public JsonResult DeleteProduct(int id)
+        {
+
+            var cliente = (AccountModel)this.Session["LoggedClient"];
+            var idCliente = new ClientModel().GetIdClientByEmail(cliente);
+
+            if (new ShoppingCartModel().DeleteProductInCart(id, idCliente))
+            {
+                RedirectToAction("Cart", "Client");
+                return Json("success: true");
+            }
+
+            return Json("success: false");
         }
     }
 }

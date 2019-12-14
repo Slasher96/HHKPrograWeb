@@ -110,6 +110,10 @@
     <Content Include="Resources\Images\Cinta-Harley107.jpg" />
     <Content Include="Resources\Images\Cinta-harley2020.jpg" />
     <Content Include="Resources\Images\cinta-HondaRoja.jpg" />
+    <Content Include="Resources\Images\Motocicletas\Cinta-Harley107.jpg" />
+    <Content Include="Resources\Images\Motocicletas\Cinta-harley2020.jpg" />
+    <Content Include="Resources\Images\Motocicletas\cinta-HondaRoja.jpg" />
+    <Content Include="Resources\Images\Motocicletas\hondaShadow750-2015-Sku4.jpg" />
     <Content Include="Resources\Images\Logo.PNG" />
     <Content Include="scripts\bootstrap-4.0.0\.babelrc.js" />
     <Content Include="scripts\bootstrap-4.0.0\assets\brand\bootstrap-outline.svg" />
@@ -680,6 +684,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Resources\Images\Refacciones\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Strings.en-US.resx" />

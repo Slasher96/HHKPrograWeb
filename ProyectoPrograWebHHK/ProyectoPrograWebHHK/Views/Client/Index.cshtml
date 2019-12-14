@@ -1,7 +1,5 @@
 ﻿@model ProyectoPrograWebHHK.Models.ProductModel
 <!DOCTYPE html>
-
-
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
@@ -77,12 +75,10 @@
                     <p><a class="btn btn-lg btn-primary" onclick="buyNow(@item.Sku)" role="button">Agregar al Carrito</a></p>
                 </div>
                 <div class="col-md-5 order-md-1">
-                    <img class="featurette-image img-fluid mx-auto" src="~/Resources/Images/@item.RutaImagen" alt="Generic placeholder image">
+                    <img class="featurette-image img-fluid mx-auto" src="~/Resources/Images/Motocicletas/@item.RutaImagen" alt="Generic placeholder image">
                 </div>
             </div>
         }
-
-
     </main>
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -114,11 +110,13 @@
 
                 data: {idProducto: id },
 
-                success: function (a) {
+            success: function (a) {
+
                 },
                 error: function () {
-                    alert('Ocurrio un error');
+                    alert('Debe iniciar sessión para poder comprar');
                 }
             });
     }
+   
 </script>

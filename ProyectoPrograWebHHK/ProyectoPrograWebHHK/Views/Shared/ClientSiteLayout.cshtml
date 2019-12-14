@@ -55,7 +55,7 @@
             }
             else
             {
-                <a href="@Url.Action("LogOff", "Client")" class="w3-padding-large w3-hover-red w3-hide-small w3-right" >Cerrar Sesión</a>
+                <a href="@Url.Action("LogOff", "Client")" class="w3-padding-large w3-hover-red w3-hide-small w3-right">Cerrar Sesión</a>
             }
         </div>
     </div>
@@ -67,9 +67,12 @@
         @if (User.Identity.IsAuthenticated)
         {
             <a href="@Url.Action("Cart","Client")" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">Carrito</a>
+            <a href="@Url.Action("LogOff", "Client")" class="w3-bar-item w3-button w3-padding-large">Cerrar Sesión</a>
         }
-        <a href="@Url.Action("ClientAccess","Client")" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">Acceso Cliente</a>
-        <a href="@Url.Action("AboutUs","Client")" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">Acerca de nosotros</a>
+        else
+        {
+            <a href="@Url.Action("ClientAccess","Client")" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">Acceso Cliente</a>
+        }
     </div>
     <div>
         @RenderBody()
@@ -96,5 +99,12 @@
         }
     }
 
-    
+    window.onclose = function LogOff() {
+        $.post('/Account/LogOff', {}, function (response) {
+            if (response.url != undefined) {
+                window.location = response.url;
+            }
+        });
+    }
+
 </script>

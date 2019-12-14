@@ -34,23 +34,23 @@
                         <tbody>
                             @foreach (var item in Model.ShoppingCarts)
                             {
-                            <tr>
-                                @if (item.Departamento == 1)
-                                {
-                                    <td><img src="~/Resources/Images/Motocicletas/@item.RutaImagen" width="50" height="50" /> </td>
-                                }
-                                else
-                                {
-                                    <td><img src="~/Resources/Images/Refacciones/@item.RutaImagen" /> </td>
-                                }
+                                <tr>
+                                    @if (item.Departamento == 1)
+                                    {
+                                        <td><img src="~/Resources/Images/Motocicletas/@item.RutaImagen" width="50" height="50" /> </td>
+                                    }
+                                    else
+                                    {
+                                        <td><img src="~/Resources/Images/Refacciones/@item.RutaImagen" width="50" height="50" /> </td>
+                                    }
 
-                                <td>@item.Sku</td>
-                                <td>In stock</td>
-                                <td class="text-right">@item.Cantidad</td>
-                                <td class="text-right">$ @item.CostoUnitario</td>
-                                <td class="text-right">$ @item.CostoTotal</td>
-                                <td class="text-right"><a class="btn btn-sm btn-danger" style="cursor:pointer;" onclick=" deleteTocart(@item.Sku)"><i class="fa fa-trash"></i> </a> </td>
-                            </tr>
+                                    <td>@item.Sku</td>
+                                    <td>In stock</td>
+                                    <td class="text-right">@item.Cantidad</td>
+                                    <td class="text-right">$ @item.CostoUnitario</td>
+                                    <td class="text-right">$ @item.CostoTotal</td>
+                                    <td class="text-right"><a class="btn btn-sm btn-danger" style="cursor:pointer;" onclick=" deleteTocart(@item.Sku)"><i class="fa fa-trash"></i> </a> </td>
+                                </tr>
                             }
 
                         </tbody>

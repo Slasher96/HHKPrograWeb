@@ -57,7 +57,7 @@ namespace ProyectoPrograWebHHK.Models
 
         public bool AddClient(ClientModel model)
         {
-            using (var context = new HHKDBEntities2())
+            using (var context = new HHKDBEntities())
             {
                 if (!context.Cliente.Any(a => a.Correo == model.CorreoElectronico))
                 {
@@ -90,7 +90,7 @@ namespace ProyectoPrograWebHHK.Models
 
         public int GetIdClientByEmail(AccountModel model)
         {
-            using (var context = new HHKDBEntities2())
+            using (var context = new HHKDBEntities())
             {
                 try
                 {
@@ -106,7 +106,7 @@ namespace ProyectoPrograWebHHK.Models
         public List<ClientModel> GetClients()
         {
             var clientList = new List<ClientModel>();
-            using (var context = new HHKDBEntities2())
+            using (var context = new HHKDBEntities())
             {
                 try
                 {

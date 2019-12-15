@@ -20,7 +20,7 @@ namespace ProyectoPrograWebHHK.Models
 
         public bool LogIn(AccountModel model)
         {
-            using (var context = new HHKDBEntities2())
+            using (var context = new HHKDBEntities())
             {
                 if (context.Cliente.Any(c => c.estaActivo && c.Contrasena == model.Contrasena && c.Correo == model.CorreoElectronico))
                 {
@@ -33,7 +33,7 @@ namespace ProyectoPrograWebHHK.Models
 
         public bool LogInEmployee(AccountModel model)
         {
-            using (var context = new HHKDBEntities2())
+            using (var context = new HHKDBEntities())
             {
                 if (context.Cliente.Any(c => c.estaActivo && c.Contrasena == model.Contrasena && c.Correo == model.CorreoElectronico && c.EsEmpleado))
                 {

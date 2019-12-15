@@ -33,17 +33,19 @@
     <br />
     <main role="main">
         <div class="container marketing">
-            @foreach (var item in Model.ListaRefacciones)
-            {
-                <div class="row">
+            <div class="row">
+                @foreach (var item in Model.ListaRefacciones)
+                {
+
                     <div class="col-lg-4">
-                        <img class="rounded-circle" src="~/Resources/Images/@item.RutaImagen" alt="Generic placeholder image" width="140" height="140">
+                        <img class="rounded-circle" src="~/Resources/Images/Refacciones/@item.RutaImagen" alt="Generic placeholder image" width="140" height="140">
                         <h2>@item.Nombre</h2>
                         <p>@item.Descripcion</p>
-                        <p><a class="btn btn-secondary" onclick="" role="button">Agregar al carrito&raquo;</a></p>
+                        <p>$ @item.Costo</p>
+                        <p><a class="btn btn-primary" onclick="buyNow(@item.Sku)" role="button">Agregar al carrito</a></p>
                     </div><!-- /.col-lg-4 -->
-                </div><!-- /.row -->
-            }
+                }
+            </div><!-- /.row -->
         </div>
     </main>
 </body>
@@ -54,17 +56,19 @@
     {
         $.ajax({
                 type: 'POST',
-                url: '@Url.Action("BuyNow","Client")', // we are calling json method
+                url: '@Url.Action("BuyNow","Client")', 
 
                 dataType: 'json',
 
                 data: {idProducto: id },
 
-                success: function (a) {
+            success: function (a) {
+
                 },
                 error: function () {
-                    alert('Ocurrio un error');
+                    alert('Debe iniciar sesión para poder comprar');
                 }
             });
     }
+   
 </script>

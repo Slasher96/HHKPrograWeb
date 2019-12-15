@@ -14,12 +14,18 @@ namespace ProyectoPrograWebHHK
     
     public partial class Departamento
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Departamento()
+        {
+            this.Productos = new HashSet<Productos>();
+        }
+    
         public int IdDepartamento { get; set; }
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
         public bool estaActivo { get; set; }
     
-        public virtual Departamento Departamento1 { get; set; }
-        public virtual Departamento Departamento2 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Productos> Productos { get; set; }
     }
 }

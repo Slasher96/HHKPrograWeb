@@ -14,12 +14,6 @@ namespace ProyectoPrograWebHHK
     
     public partial class Venta
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Venta()
-        {
-            this.Detalle = new HashSet<Detalle>();
-        }
-    
         public int IdVenta { get; set; }
         public int IdCliente { get; set; }
         public int IdMp { get; set; }
@@ -28,8 +22,6 @@ namespace ProyectoPrograWebHHK
         public decimal Total { get; set; }
     
         public virtual Cliente Cliente { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Detalle> Detalle { get; set; }
         public virtual ModoPago ModoPago { get; set; }
     }
 }

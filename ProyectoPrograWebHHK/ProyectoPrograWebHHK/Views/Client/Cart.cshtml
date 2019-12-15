@@ -11,6 +11,21 @@
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
+
+    <!--===============================================================================================-->
+    <script src="@Url.Content("~/scripts/JS/vendor/jquery/jquery-3.2.1.min.js")"></script>
+    <!--===============================================================================================-->
+    <script src="@Url.Content("~/scripts/JS/vendor/bootstrap/js/popper.js")"></script>
+    <script src="@Url.Content("~/scripts//JS/vendor/bootstrap/js/bootstrap.min.js")"></script>
+    <!--===============================================================================================-->
+    <script src="@Url.Content("~/scripts//JS/vendor/select2/select2.min.js")"></script>
+    <!--===============================================================================================-->
+    <script src="@Url.Content("~/scripts//JS/main.js")"></script>
+
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
     <!------ Include the above in your HEAD tag ---------->
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 </head>
@@ -44,9 +59,8 @@
                                         <td><img src="~/Resources/Images/Refacciones/@item.RutaImagen" width="50" height="50" /> </td>
                                     }
 
-                                    <td>@item.Sku</td>
                                     <td>In stock</td>
-                                    <td class="text-right">@item.Cantidad</td>
+                                    <td class="text-right" align="center">@item.Cantidad</td>
                                     <td class="text-right">$ @item.CostoUnitario</td>
                                     <td class="text-right">$ @item.CostoTotal</td>
                                     <td class="text-right"><a class="btn btn-sm btn-danger" style="cursor:pointer;" onclick=" deleteTocart(@item.Sku)"><i class="fa fa-trash"></i> </a> </td>
@@ -63,7 +77,7 @@
                         <a class="btn btn-block btn-light" href="@Url.Action("Index","Client")">Continuar Comprando</a>
                     </div>
                     <div class="col-sm-12 col-md-6 text-right">
-                        <button class="btn btn-lg btn-block btn-success text-uppercase">Terminar Compra</button>
+                        <button class="btn btn-lg btn-block btn-success text-uppercase" onclick="PayNow()">Terminar Compra</button>
                     </div>
                 </div>
             </div>
@@ -93,5 +107,41 @@
                     alert('Debe iniciar sessión para poder elimar del carrito o comprar');
                 }
             });
-     }
+    }
+
+    function PayNow() {
+           $("<div id='PagarAhora'></div>").dialog({
+                autoOpen: true,
+                    resizable: false,
+                    width: 500,
+                    height: 400,
+                modal: true,
+                show: { effect: 'drop', direction: "up" },
+                title: "Pago con tarjeta",
+                modal: true,
+               open: function (event, ui) {
+                        $(this).closest(".ui-dialog")
+                               .find(".ui-button:last")
+                            .addClass("ui-button-cancel");
+                        $.ajax({
+                            url: '@Url.Action("PayNowView", "Client")',
+                            data: {},
+                            type: 'POST',
+                            datatype: 'json',
+                            success: function (data) {
+                              $('#PagarAhora').html(data);
+                            },
+                            error: function (e) {
+                                alert("Algo salio mal");
+                        }
+                        });
+                    },
+                buttons: {
+                    "Cancelar": function () {
+                         $(this).dialog("destroy");
+                    }
+                },
+
+            });
+        }
 </script>

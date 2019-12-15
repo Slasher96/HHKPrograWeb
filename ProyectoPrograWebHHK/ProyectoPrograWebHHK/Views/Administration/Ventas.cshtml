@@ -27,10 +27,48 @@
                     <td>@item.FechaVenta</td>
                     <td>@item.Subtotal</td>
                     <td>@item.Total</td>
-                    <td>@item.Detalles.Select(a => a.Cantidad)</td> @*cambiar oara que muestre la lista de detalles*@
-                    <td>@item.ModoPago</td>
+                    <td><a style="cursor: pointer;" onclick="Detalles(@item.IdVenta)">Ver Detalles</a></td> @*cambiar oara que muestre la lista de detalles*@
+                    <td>Tarjeta de Crédito</td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
+<script>
+
+    function Detalles(idventa) {
+           $("<div id='Detalles'></div>").dialog({
+                autoOpen: true,
+                    resizable: false,
+                    width: 600,
+                    height: 500,
+                modal: true,
+                show: { effect: 'drop', direction: "up" },
+                title: "Detalle de la venta",
+                modal: true,
+               open: function (event, ui) {
+                        $(this).closest(".ui-dialog")
+                               .find(".ui-button:last")
+                            .addClass("ui-button-cancel");
+                        $.ajax({
+                            url: '@Url.Action("Detalles", "Administration")',
+                            data: {idVentas: idventa},
+                            type: 'POST',
+                            datatype: 'json',
+                            success: function (data) {
+                              $('#Detalles').html(data);
+                            },
+                            error: function (e) {
+                                alert("Algo salio mal");
+                        }
+                        });
+                    },
+                buttons: {
+                    "Cerrar": function () {
+                         $(this).dialog("destroy");
+                    }
+                },
+
+            });
+        }
+</script>

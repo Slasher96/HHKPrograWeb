@@ -18,7 +18,6 @@ namespace ProyectoPrograWebHHK
         public Productos()
         {
             this.CarritoCompras = new HashSet<CarritoCompras>();
-            this.Detalle = new HashSet<Detalle>();
         }
     
         public int Sku { get; set; }
@@ -33,7 +32,6 @@ namespace ProyectoPrograWebHHK
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CarritoCompras> CarritoCompras { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Detalle> Detalle { get; set; }
+        public virtual Departamento Departamento { get; set; }
     }
 }

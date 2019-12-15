@@ -40,7 +40,7 @@ namespace ProyectoPrograWebHHK.Models
         public List<ShoppingCartModel> GetProductInCartByClient(int idCliente)
         {
             var productsInCart = new List<ShoppingCartModel>();
-            using (var context = new HHKDBEntities2())
+            using (var context = new HHKDBEntities())
             {
                 if (context.Cliente.Any(a => a.IdCliente == idCliente))
                 {
@@ -69,7 +69,7 @@ namespace ProyectoPrograWebHHK.Models
 
         public bool AddPRoductToCar(int sku, int idCliente)
         {
-            using (var context = new HHKDBEntities2())
+            using (var context = new HHKDBEntities())
             {
                 if (idCliente != 0 && sku != 0)
                 {
@@ -104,7 +104,7 @@ namespace ProyectoPrograWebHHK.Models
                     }
                     else
                     {
-                        context.CarritoCompras.First(a => a.IdCliente == model.IdCliente && a.Sku == model.Sku && EstaActivo).Cantidad += 1;
+                        context.CarritoCompras.First(a => a.IdCliente == model.IdCliente && a.Sku == model.Sku && EstaActivo == true).Cantidad += 1;
                         if (context.SaveChanges() > 0)
                         {
                             return true;
@@ -118,7 +118,7 @@ namespace ProyectoPrograWebHHK.Models
 
         public bool DeleteProductInCart(int idProduct, int client)
         {
-            using (var context = new HHKDBEntities2())
+            using (var context = new HHKDBEntities())
             {
                 try
                 {
@@ -140,7 +140,7 @@ namespace ProyectoPrograWebHHK.Models
 
         public bool Inventario(int sku)
         {
-            using (var context = new HHKDBEntities2())
+            using (var context = new HHKDBEntities())
             {
                 return context.Productos.Any(a => a.estaActivo && a.Sku == sku && a.Inventario > 0);
             }

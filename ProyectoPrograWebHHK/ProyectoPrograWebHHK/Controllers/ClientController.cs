@@ -14,17 +14,20 @@ namespace ProyectoPrograWebHHK.Controllers
         public ActionResult Index()
         {
             var model = new ProductModel { ListaMotocicletas = new ProductModel().GetMotos() };
+            
             return View(model);
         }
 
         public ActionResult Motorcycles()
         {
+            var model = new ProductModel { ListaMotocicletas = new ProductModel().GetMotos() };
             return View();
         }
 
         public ActionResult MotorcycleParts()
         {
-            return View();
+            var model = new ProductModel { ListaRefacciones = new ProductModel().GetRefacciones() };
+            return View(model);
         }
 
         public ActionResult AboutUs()
@@ -65,6 +68,9 @@ namespace ProyectoPrograWebHHK.Controllers
         {
             this.Session["LoggedClient"] = null;
             FormsAuthentication.SignOut();
+            Session.Abandon();
+            Response.Cookies.Add(new HttpCookie("ASP.NET_SessionId", ""));
+
             return RedirectToAction("Index", "Client");
         }
 
@@ -106,6 +112,7 @@ namespace ProyectoPrograWebHHK.Controllers
             var cliente = (AccountModel)this.Session["LoggedClient"];
             var idCliente = new ClientModel().GetIdClientByEmail(cliente);
             var model = new ShoppingCartModel { ShoppingCarts = new ShoppingCartModel().GetProductInCartByClient(idCliente) };
+            this.Session["Currentcart"] = model;
             foreach (var item in model.ShoppingCarts)
             {
                 item.CostoTotal = item.CostoUnitario * item.Cantidad;
@@ -115,6 +122,7 @@ namespace ProyectoPrograWebHHK.Controllers
         }
 
         [Authorize]
+        [HttpPost]
         public JsonResult BuyNow(int idProducto)
         {
             var cliente = (AccountModel)this.Session["LoggedClient"];
@@ -143,6 +151,44 @@ namespace ProyectoPrograWebHHK.Controllers
             }
 
             return Json("success: false");
+        }
+
+
+        [HttpPost]
+        public PartialViewResult PayNowView()
+        {
+            var currentClientCart = (ShoppingCartModel)this.Session["Currentcart"];
+
+            return PartialView("PayNow");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult PayNow(Models.PayFormModel model)
+        {
+            var cliente = (AccountModel)this.Session["LoggedClient"];
+            var idCliente = new ClientModel().GetIdClientByEmail(cliente);
+            var modelCart = new ShoppingCartModel { ShoppingCarts = new ShoppingCartModel().GetProductInCartByClient(idCliente) };
+
+            foreach (var item in modelCart.ShoppingCarts)
+            {
+                item.CostoTotal = item.CostoUnitario * item.Cantidad;
+            }
+
+            if (model != null && ModelState.IsValid && !string.IsNullOrEmpty(model.NumeroTarjeta))
+            {
+                SaleModel.AddSale(idCliente);
+                var modelCart2 = new ShoppingCartModel { ShoppingCarts = new ShoppingCartModel().GetProductInCartByClient(idCliente) };
+
+                foreach (var item in modelCart2.ShoppingCarts)
+                {
+                    item.CostoTotal = item.CostoUnitario * item.Cantidad;
+                }
+
+                RedirectToAction("Cart", modelCart2);
+            }
+
+            return View("Cart", modelCart);
         }
     }
 }

@@ -47,6 +47,7 @@
             <PropertyRef Name="IdDetalle" />
           </Key>
           <Property Name="IdDetalle" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NumeroDetalle" Type="int" />
           <Property Name="IdVenta" Type="int" Nullable="false" />
           <Property Name="Sku" Type="int" Nullable="false" />
           <Property Name="Costo" Type="money" Nullable="false" />
@@ -123,39 +124,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Departamento_Departamento">
+        <Association Name="FK_Productos_Departamento">
           <End Role="Departamento" Type="Self.Departamento" Multiplicity="1" />
-          <End Role="Departamento1" Type="Self.Departamento" Multiplicity="0..1" />
+          <End Role="Productos" Type="Self.Productos" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Departamento">
               <PropertyRef Name="IdDepartamento" />
             </Principal>
-            <Dependent Role="Departamento1">
+            <Dependent Role="Productos">
               <PropertyRef Name="IdDepartamento" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Detalle_Productos">
-          <End Role="Productos" Type="Self.Productos" Multiplicity="1" />
-          <End Role="Detalle" Type="Self.Detalle" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Productos">
-              <PropertyRef Name="Sku" />
-            </Principal>
-            <Dependent Role="Detalle">
-              <PropertyRef Name="Sku" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Detalle_Venta">
-          <End Role="Venta" Type="Self.Venta" Multiplicity="1" />
-          <End Role="Detalle" Type="Self.Detalle" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Venta">
-              <PropertyRef Name="IdVenta" />
-            </Principal>
-            <Dependent Role="Detalle">
-              <PropertyRef Name="IdVenta" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -203,17 +180,9 @@
             <End Role="Productos" EntitySet="Productos" />
             <End Role="CarritoCompras" EntitySet="CarritoCompras" />
           </AssociationSet>
-          <AssociationSet Name="FK_Departamento_Departamento" Association="Self.FK_Departamento_Departamento">
+          <AssociationSet Name="FK_Productos_Departamento" Association="Self.FK_Productos_Departamento">
             <End Role="Departamento" EntitySet="Departamento" />
-            <End Role="Departamento1" EntitySet="Departamento" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Detalle_Productos" Association="Self.FK_Detalle_Productos">
             <End Role="Productos" EntitySet="Productos" />
-            <End Role="Detalle" EntitySet="Detalle" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Detalle_Venta" Association="Self.FK_Detalle_Venta">
-            <End Role="Venta" EntitySet="Venta" />
-            <End Role="Detalle" EntitySet="Detalle" />
           </AssociationSet>
           <AssociationSet Name="FK_Venta_Cliente" Association="Self.FK_Venta_Cliente">
             <End Role="Cliente" EntitySet="Cliente" />
@@ -270,21 +239,19 @@
           <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Descripcion" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="estaActivo" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Departamento1" Relationship="Self.FK_Departamento_Departamento" FromRole="Departamento" ToRole="Departamento1" />
-          <NavigationProperty Name="Departamento2" Relationship="Self.FK_Departamento_Departamento" FromRole="Departamento1" ToRole="Departamento" />
+          <NavigationProperty Name="Productos" Relationship="Self.FK_Productos_Departamento" FromRole="Departamento" ToRole="Productos" />
         </EntityType>
         <EntityType Name="Detalle">
           <Key>
             <PropertyRef Name="IdDetalle" />
           </Key>
           <Property Name="IdDetalle" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NumeroDetalle" Type="Int32" />
           <Property Name="IdVenta" Type="Int32" Nullable="false" />
           <Property Name="Sku" Type="Int32" Nullable="false" />
           <Property Name="Costo" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="Total" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="Cantidad" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Productos" Relationship="Self.FK_Detalle_Productos" FromRole="Detalle" ToRole="Productos" />
-          <NavigationProperty Name="Venta" Relationship="Self.FK_Detalle_Venta" FromRole="Detalle" ToRole="Venta" />
         </EntityType>
         <EntityType Name="ModoPago">
           <Key>
@@ -311,7 +278,7 @@
           <Property Name="Inventario" Type="Int32" />
           <Property Name="estaActivo" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="CarritoCompras" Relationship="Self.FK_CarritoCompras_Productos" FromRole="Productos" ToRole="CarritoCompras" />
-          <NavigationProperty Name="Detalle" Relationship="Self.FK_Detalle_Productos" FromRole="Productos" ToRole="Detalle" />
+          <NavigationProperty Name="Departamento" Relationship="Self.FK_Productos_Departamento" FromRole="Productos" ToRole="Departamento" />
         </EntityType>
         <EntityType Name="Venta">
           <Key>
@@ -324,7 +291,6 @@
           <Property Name="subtotal" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="Total" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <NavigationProperty Name="Cliente" Relationship="Self.FK_Venta_Cliente" FromRole="Venta" ToRole="Cliente" />
-          <NavigationProperty Name="Detalle" Relationship="Self.FK_Detalle_Venta" FromRole="Venta" ToRole="Detalle" />
           <NavigationProperty Name="ModoPago" Relationship="Self.FK_Venta_ModoPago" FromRole="Venta" ToRole="ModoPago" />
         </EntityType>
         <Association Name="FK_CarritoCompras_Cliente">
@@ -375,39 +341,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Departamento_Departamento">
+        <Association Name="FK_Productos_Departamento">
           <End Role="Departamento" Type="Self.Departamento" Multiplicity="1" />
-          <End Role="Departamento1" Type="Self.Departamento" Multiplicity="0..1" />
+          <End Role="Productos" Type="Self.Productos" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Departamento">
               <PropertyRef Name="IdDepartamento" />
             </Principal>
-            <Dependent Role="Departamento1">
+            <Dependent Role="Productos">
               <PropertyRef Name="IdDepartamento" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Detalle_Productos">
-          <End Role="Productos" Type="Self.Productos" Multiplicity="1" />
-          <End Role="Detalle" Type="Self.Detalle" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Productos">
-              <PropertyRef Name="Sku" />
-            </Principal>
-            <Dependent Role="Detalle">
-              <PropertyRef Name="Sku" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Detalle_Venta">
-          <End Role="Venta" Type="Self.Venta" Multiplicity="1" />
-          <End Role="Detalle" Type="Self.Detalle" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Venta">
-              <PropertyRef Name="IdVenta" />
-            </Principal>
-            <Dependent Role="Detalle">
-              <PropertyRef Name="IdVenta" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -423,7 +365,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="HHKDBEntities2" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="HHKDBEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="CarritoCompras" EntityType="Self.CarritoCompras" />
           <EntitySet Name="Cliente" EntityType="Self.Cliente" />
           <EntitySet Name="Departamento" EntityType="Self.Departamento" />
@@ -447,17 +389,9 @@
             <End Role="Cliente" EntitySet="Cliente" />
             <End Role="Venta" EntitySet="Venta" />
           </AssociationSet>
-          <AssociationSet Name="FK_Departamento_Departamento" Association="Self.FK_Departamento_Departamento">
+          <AssociationSet Name="FK_Productos_Departamento" Association="Self.FK_Productos_Departamento">
             <End Role="Departamento" EntitySet="Departamento" />
-            <End Role="Departamento1" EntitySet="Departamento" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Detalle_Productos" Association="Self.FK_Detalle_Productos">
             <End Role="Productos" EntitySet="Productos" />
-            <End Role="Detalle" EntitySet="Detalle" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Detalle_Venta" Association="Self.FK_Detalle_Venta">
-            <End Role="Venta" EntitySet="Venta" />
-            <End Role="Detalle" EntitySet="Detalle" />
           </AssociationSet>
           <AssociationSet Name="FK_Venta_ModoPago" Association="Self.FK_Venta_ModoPago">
             <End Role="ModoPago" EntitySet="ModoPago" />
@@ -469,7 +403,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="HHKDBModelStoreContainer" CdmEntityContainer="HHKDBEntities2">
+        <EntityContainerMapping StorageEntityContainer="HHKDBModelStoreContainer" CdmEntityContainer="HHKDBEntities">
           <EntitySetMapping Name="CarritoCompras">
             <EntityTypeMapping TypeName="HHKDBModel.CarritoCompras">
               <MappingFragment StoreEntitySet="CarritoCompras">
@@ -514,6 +448,7 @@
             <EntityTypeMapping TypeName="HHKDBModel.Detalle">
               <MappingFragment StoreEntitySet="Detalle">
                 <ScalarProperty Name="IdDetalle" ColumnName="IdDetalle" />
+                <ScalarProperty Name="NumeroDetalle" ColumnName="NumeroDetalle" />
                 <ScalarProperty Name="IdVenta" ColumnName="IdVenta" />
                 <ScalarProperty Name="Sku" ColumnName="Sku" />
                 <ScalarProperty Name="Costo" ColumnName="Costo" />

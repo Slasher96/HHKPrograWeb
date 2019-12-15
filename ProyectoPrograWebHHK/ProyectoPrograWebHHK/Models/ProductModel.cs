@@ -49,7 +49,7 @@ namespace ProyectoPrograWebHHK.Models
         public List<ProductModel> GetProductos()
         {
             var ListaProductos = new List<ProductModel>();
-            using (var context = new HHKDBEntities2())
+            using (var context = new HHKDBEntities())
             {
                 foreach (var item in context.Productos.ToList())
                 {
@@ -73,7 +73,7 @@ namespace ProyectoPrograWebHHK.Models
         public List<ProductModel> GetMotos()
         {
             var ListaProductos = new List<ProductModel>();
-            using (var context = new HHKDBEntities2())
+            using (var context = new HHKDBEntities())
             {
                 foreach (var item in context.Productos.Where(a => a.estaActivo && a.IdDepartamento == idDepartamentoMotos).ToList())
                 {
@@ -97,7 +97,7 @@ namespace ProyectoPrograWebHHK.Models
         public List<ProductModel> GetRefacciones()
         {
             var ListaProductos = new List<ProductModel>();
-            using (var context = new HHKDBEntities2())
+            using (var context = new HHKDBEntities())
             {
                 foreach (var item in context.Productos.Where(a => a.estaActivo && a.IdDepartamento == idDepartamentoRefacciones).ToList())
                 {
@@ -120,7 +120,7 @@ namespace ProyectoPrograWebHHK.Models
 
         public bool AddProduct(ProductModel product)
         {
-            using (var context = new HHKDBEntities2())
+            using (var context = new HHKDBEntities())
             {
                 try
                 {
@@ -152,7 +152,7 @@ namespace ProyectoPrograWebHHK.Models
 
         public bool DeleteProduct(int sku)
         {
-            using (var context = new HHKDBEntities2())
+            using (var context = new HHKDBEntities())
             {
                 if (context.Productos.Any(a => a.Sku == sku))
                 {
@@ -174,7 +174,7 @@ namespace ProyectoPrograWebHHK.Models
 
         public bool UpdateProduct(ProductModel product)
         {
-            using (var context = new HHKDBEntities2())
+            using (var context = new HHKDBEntities())
             {
                 if (context.Productos.Any(a => a.Sku == product.Sku))
                 {

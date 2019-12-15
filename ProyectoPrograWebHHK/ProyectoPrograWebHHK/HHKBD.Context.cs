@@ -13,10 +13,10 @@ namespace ProyectoPrograWebHHK
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class HHKDBEntities2 : DbContext
+    public partial class HHKDBEntities : DbContext
     {
-        public HHKDBEntities2()
-            : base("name=HHKDBEntities2")
+        public HHKDBEntities()
+            : base("name=HHKDBEntities")
         {
         }
     

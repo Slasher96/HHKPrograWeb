@@ -15,6 +15,7 @@ namespace ProyectoPrograWebHHK.Controllers
         private const int DptoRefacciones = 2;
 
         // GET: Administration
+
         public ActionResult Index()
         {
             return View();
@@ -24,7 +25,7 @@ namespace ProyectoPrograWebHHK.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Index(AccountModel model)
         {
-            if (!new AccountModel().LogInEmployee(model) && ModelState.IsValid)
+            if (model != null && !new AccountModel().LogInEmployee(model) && ModelState.IsValid)
             {
                 TempData["CustomError"] = "Usuario o contraseña invalidos";
                 return View();
@@ -39,8 +40,6 @@ namespace ProyectoPrograWebHHK.Controllers
 
         public ActionResult Dashboard()
         {
-
-
             return View();
         }
 
@@ -52,6 +51,8 @@ namespace ProyectoPrograWebHHK.Controllers
         {
             this.Session["LoggedClient"] = null;
             FormsAuthentication.SignOut();
+            Session.Abandon();
+            Response.Cookies.Add(new HttpCookie("ASP.NET_SessionId", ""));
             return RedirectToAction("Index", "Client");
         }
 
@@ -60,6 +61,7 @@ namespace ProyectoPrograWebHHK.Controllers
             this.Session["Vistas"] = "1";
             return RedirectToAction("Dashboard");
         }
+
 
         public ActionResult Productos()
         {
@@ -74,9 +76,10 @@ namespace ProyectoPrograWebHHK.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult AddProduct(ProductModel model)
         {
-            if (ModelState.IsValid && Request.Files.Count > 0)
+            if (ModelState.IsValid && Request.Files.Count > 0 && model != null)
             {
                 string path = string.Empty;
                 if (model.IdDepartamento == DptoRefacciones)
@@ -93,7 +96,17 @@ namespace ProyectoPrograWebHHK.Controllers
                 new ProductModel().AddProduct(model);
             }
 
-            return View("Dashboard");
+            return RedirectToAction("Dashboard", "Administration");
+        }
+
+        [HttpPost]
+        public PartialViewResult Detalles(int idVentas)
+        {
+            var detalles = new DetalleModel();
+
+            detalles.ListDetalles = DetalleModel.GetDetalles(idVentas);
+
+            return PartialView(detalles);
         }
     }
 }

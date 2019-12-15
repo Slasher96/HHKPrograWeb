@@ -1,0 +1,69 @@
+﻿@model  ProyectoPrograWebHHK.Models.PayFormModel
+<style>
+    .credit-card-div span {
+        padding-top: 10px;
+    }
+
+    .credit-card-div img {
+        padding-top: 30px;
+    }
+
+    .credit-card-div .small-font {
+        font-size: 9px;
+    }
+
+    .credit-card-div .pad-adjust {
+        padding-top: 10px;
+    }
+</style>
+
+<div>
+    @using (Html.BeginForm("PayNow", "Client", FormMethod.Post, new { @class = "credit-card-div" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+
+                <div class="row ">
+                    <div class="col-md-12">
+                        @Html.TextBoxFor(a => a.NumeroTarjeta, new { @class = "form-control", @placeholder = "Número de tarjeta (16 digitos)" })
+                        <p style="color:red">@Html.ValidationMessageFor(a => a.NumeroTarjeta)</p>
+                    </div>
+                </div>
+                <div class="row ">
+                    <div class="col-md-3 col-sm-3 col-xs-3">
+                        <span class="help-block text-muted small-font"> Mes de expiración</span>
+                        @Html.TextBoxFor(a => a.MM, new { @class = "form-control", @placeholder = "MM" })
+                        <p style="color:red">@Html.ValidationMessageFor(a => a.MM)</p>
+                    </div>
+                    <div class="col-md-3 col-sm-3 col-xs-3">
+                        <span class="help-block text-muted small-font">  año de expiración</span>
+                        @Html.TextBoxFor(a => a.YY, new { @class = "form-control", @placeholder = "YY" })
+                        <p style="color:red">@Html.ValidationMessageFor(a => a.YY)</p>
+                    </div>
+                    <div class="col-md-3 col-sm-3 col-xs-3">
+                        <span class="help-block text-muted small-font">  CCV</span>
+                        @Html.TextBoxFor(a => a.CVV, new { @class = "form-control", @placeholder = "CCV" })
+                        <p style="color:red">@Html.ValidationMessageFor(a => a.CVV)</p>
+                    </div>
+                    <div class="col-md-3 col-sm-3 col-xs-3">
+                        <img src="~/Resources/Images/tarjetaCredito.png" width="50" height="60" class="img-rounded" />
+                    </div>
+                </div>
+                <div class="row ">
+                    <div class="col-md-12 pad-adjust">
+                        @Html.TextBoxFor(a => a.Name, new { @class = "form-control", @placeholder = "Nombre en la Tarjeta" })
+                        <p style="color:red">@Html.ValidationMessageFor(a => a.Name)</p>
+                    </div>
+                </div>
+                <div class="row ">
+                    <div class="col-md-6 col-sm-6 col-xs-6 pad-adjust">
+                        <input type="submit" class="btn btn-warning btn-block" value="PAGAR AHORA" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    }
+</div>

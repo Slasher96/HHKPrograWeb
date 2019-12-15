@@ -15,13 +15,11 @@ namespace ProyectoPrograWebHHK
     public partial class Detalle
     {
         public int IdDetalle { get; set; }
+        public Nullable<int> NumeroDetalle { get; set; }
         public int IdVenta { get; set; }
         public int Sku { get; set; }
         public decimal Costo { get; set; }
         public decimal Total { get; set; }
         public int Cantidad { get; set; }
-    
-        public virtual Productos Productos { get; set; }
-        public virtual Venta Venta { get; set; }
     }
 }

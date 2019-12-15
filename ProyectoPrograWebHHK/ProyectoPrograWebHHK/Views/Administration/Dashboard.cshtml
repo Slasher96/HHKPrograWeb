@@ -18,6 +18,17 @@
 
     <!-- Custom styles for this template -->
     <link href="~/scripts/css/dashboard.css" rel="stylesheet">
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
+
+    <!--Colocar indicación en el archivo para indicar que no hay modo responsivo en administrador-->
 </head>
 
 <body onclose="@Url.Action("LogOff", "Administration")">
@@ -29,7 +40,6 @@
             </li>
         </ul>
     </nav>
-
     <div class="container-fluid">
         <div class="row">
             <nav class="col-md-2 d-none d-md-block bg-light sidebar">
@@ -90,6 +100,19 @@
     <script src="~/scripts/bootstrap-4.0.0/assets/js/vendor/popper.min.js"></script>
     <script src="~/scripts/bootstrap-4.0.0/dist/js/bootstrap.min.js"></script>
 
+    <!--===============================================================================================-->
+    <script src="@Url.Content("~/scripts/JS/vendor/jquery/jquery-3.2.1.min.js")"></script>
+    <!--===============================================================================================-->
+    <script src="@Url.Content("~/scripts/JS/vendor/bootstrap/js/popper.js")"></script>
+    <script src="@Url.Content("~/scripts/JS/vendor/bootstrap/js/bootstrap.min.js")"></script>
+    <!--===============================================================================================-->
+    <script src="@Url.Content("~/scripts/JS/vendor/select2/select2.min.js")"></script>
+    <!--===============================================================================================-->
+    <script src="@Url.Content("~/scripts/JS/main.js")"></script>
+    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+    <script src="~/scripts/bootstrap-4.0.0/assets/js/vendor/holder.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
     <!-- Icons -->
     <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
     <script>
@@ -126,7 +149,15 @@
                 }
             }
         });
-        
+
+        window.onclose = function LogOff() {
+            debugger;
+        $.post('@Url.Action("LogOff","Administration")', {}, function (response) {
+            if (response.url != undefined) {
+                window.location = response.url;
+            }
+        });
+    }
     </script>
 </body>
 </html>

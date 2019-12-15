@@ -38,7 +38,6 @@
                     <a href="@Url.Action("ServiceFindAgencies","Client")" class="w3-bar-item w3-button">Mecánicos de motos cerca</a>
                 </div>
             </div>
-            <a href="@Url.Action("AboutUs","Client")" class="w3-bar-item w3-button w3-padding-large w3-hide-small" style="bottom:0px;">Acerca de nosotros</a>
             @*--------------------------Botones cliente administrador------------------------------------*@
 
             @if (User.Identity.IsAuthenticated)
@@ -48,6 +47,7 @@
                     <span class="badge badge-light">3</span>
                 </a>
             }
+
             @if (!User.Identity.IsAuthenticated)
             {
                 <a href="@Url.Action("ClientAccess", "Client")" class="w3-padding-large w3-hover-red w3-hide-small w3-right">Acceso Cliente</a>
@@ -61,7 +61,6 @@
     </div>
     <div id="navDemo" class="w3-bar-block w3-black w3-hide w3-hide-large w3-hide-medium w3-top" style="margin-top:46px">
         <a href="@Url.Action("Index","Client")" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">Inicio</a>
-        <a href="@Url.Action("Motorcycles","Client")" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">Motocicletas</a>
         <a href="@Url.Action("MotorcycleParts","Client")" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">Refacciones</a>
         <a href="@Url.Action("ServiceFindAgencies","Client")" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">Mecánicos de motos cerca</a>
         @if (User.Identity.IsAuthenticated)
@@ -100,7 +99,8 @@
     }
 
     window.onclose = function LogOff() {
-        $.post('/Account/LogOff', {}, function (response) {
+        debugger;
+        $.post('@Url.Action("LogOff","Client")', {}, function (response) {
             if (response.url != undefined) {
                 window.location = response.url;
             }

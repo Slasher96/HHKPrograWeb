@@ -83,15 +83,18 @@ namespace ProyectoPrograWebHHK.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AddUser(ClientModel model)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && model != null)
             {
                 if (new ClientModel().AddClient(model))
                 {
+                    Email.SendEmail(model.CorreoElectronico, Email.BuildWelcomeBody(), "Bienvenido a HHK");
                     return View("Index");
                 }
+
                 ModelState.AddModelError("Error", "El correo ya existe");
                 return View();
             }
+
             return View();
         }
 
@@ -185,7 +188,7 @@ namespace ProyectoPrograWebHHK.Controllers
                     item.CostoTotal = item.CostoUnitario * item.Cantidad;
                 }
 
-                RedirectToAction("Cart", modelCart2);
+                RedirectToAction("Index","Client");
             }
 
             return View("Cart", modelCart);

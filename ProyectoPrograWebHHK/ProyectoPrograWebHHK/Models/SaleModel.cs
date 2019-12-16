@@ -56,8 +56,9 @@ namespace ProyectoPrograWebHHK.Models
         {
             using (var context = new HHKDBEntities())
             {
-                var carritoCliente = context.CarritoCompras.Where(a => a.IdCliente == idCliente).ToList();
+                var carritoCliente = context.CarritoCompras.Include("Productos").Where(a => a.IdCliente == idCliente && !a.Ventido).ToList();
 
+                
                 //calcular total de la venta
                 decimal subtotal = 0;
 
@@ -99,8 +100,14 @@ namespace ProyectoPrograWebHHK.Models
                         item.Ventido = true;
                     }
 
-                    context.SaveChanges();
-                    return true;
+                    if (context.SaveChanges() > 0)
+                    {
+                        var id = GetLastIdVenta();
+                        var venta = context.Venta.Where(a => a.IdVenta == id).First();
+                        var cliente = context.Cliente.Where(b => b.IdCliente == idCliente).First();
+                        Email.SendEmail(ClientModel.GetEmailByIdClient(idCliente),Email.BuildBuyBody(carritoCliente, venta, cliente),"Factura HHK Motorcycles");
+                    }
+                        return true;
                 }
             }
 

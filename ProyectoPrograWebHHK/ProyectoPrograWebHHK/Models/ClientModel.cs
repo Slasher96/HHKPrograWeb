@@ -94,11 +94,26 @@ namespace ProyectoPrograWebHHK.Models
             {
                 try
                 {
-                    return context.Cliente.Where(a => a.Correo == model.CorreoElectronico && !EsEmpleado).First().IdCliente;
+                    return context.Cliente.Where(a => a.Correo == model.CorreoElectronico && !a.EsEmpleado).First().IdCliente;
                 }
                 catch (Exception)
                 {
                     return 0;
+                }
+            }
+        }
+
+        public static string GetEmailByIdClient(int idclient)
+        {
+            using (var context = new HHKDBEntities())
+            {
+                try
+                {
+                    return context.Cliente.Where(a => a.IdCliente == idclient && !a.EsEmpleado).First().Correo;
+                }
+                catch (Exception e)
+                {
+                    return e.Message;
                 }
             }
         }

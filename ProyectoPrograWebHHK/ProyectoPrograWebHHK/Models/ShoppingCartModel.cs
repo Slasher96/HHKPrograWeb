@@ -84,7 +84,7 @@ namespace ProyectoPrograWebHHK.Models
                         CostoUnitario = (decimal)product.Costo,
                     };
 
-                    if (!context.CarritoCompras.Any(a => a.IdCliente == model.IdCliente && a.Sku == model.Sku && a.estaActivo))
+                    if (!context.CarritoCompras.Any(a => a.IdCliente == model.IdCliente && a.Sku == model.Sku && a.estaActivo && !a.Ventido))
                     {
                         context.CarritoCompras.Add(new CarritoCompras
                         {
@@ -97,14 +97,15 @@ namespace ProyectoPrograWebHHK.Models
                             IdMp = 1
                         });
 
-                        if (context.SaveChanges() > 0) // rehacer la tabla carritoCompras para que hacepte idMp nulo
+                        if (context.SaveChanges() > 0) 
                         {
                             return true;
                         }
                     }
                     else
                     {
-                        context.CarritoCompras.First(a => a.IdCliente == model.IdCliente && a.Sku == model.Sku && EstaActivo == true).Cantidad += 1;
+                        context.CarritoCompras.First(a => a.IdCliente == model.IdCliente && a.Sku == model.Sku && a.estaActivo).Cantidad +=1;
+
                         if (context.SaveChanges() > 0)
                         {
                             return true;

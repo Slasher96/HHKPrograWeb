@@ -691,6 +691,11 @@
     <Content Include="Views\Administration\AddProducts.cshtml" />
     <Content Include="Views\Client\PayNow.cshtml" />
     <Content Include="Views\Administration\Detalles.cshtml" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\HHKMotorcycles - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\MotorcyclesHHK - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\MotorcyclesHHK - ReadOnly - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\MotorcyclesHHK - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

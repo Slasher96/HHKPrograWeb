@@ -124,6 +124,8 @@ namespace ProyectoPrograWebHHK.Models
                 try
                 {
                     context.CarritoCompras.First(a => a.Sku == idProduct && a.IdCliente == client).estaActivo = false;
+
+                    context.CarritoCompras.First(a => a.Sku == idProduct && a.IdCliente == client).Ventido = true;
                 }
                 catch (Exception)
                 {
